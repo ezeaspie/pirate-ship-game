@@ -10,7 +10,7 @@ class Fleet extends Component {
 
     render(){
         return(
-            <div>
+            <div className="fleet">
                     {this.props.fleet.map((ship)=>{
                         return <Ship 
                         handleAttack={this.props.handleAttack} 

@@ -3,7 +3,8 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  -webkit-animation: App-logo-spin infinite 20s linear;
+          animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
 }
 
@@ -22,15 +23,89 @@
   color: #61dafb;
 }
 
+.fleet{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 1em;
+}
+
+.fleet:first-of-type{
+  margin-bottom: 5em;
+}
+
 .active-ship{
   border:solid 1px blueviolet;
 }
 
-@keyframes App-logo-spin {
+
+.combat-ship-image-container{
+  border: solid 1px red;
+}
+
+.combat-cannons {
+  list-style-type: none;
+  padding: 0;
+}
+
+.combat-ship-image-container img {
+
+  -webkit-animation: ship-bob ease 6s infinite;
+
+          animation: ship-bob ease 6s infinite;
+
+}
+
+@-webkit-keyframes ship-bob {
+  0%{
+    -webkit-transform: translate(0px, 0px) rotate(90deg);
+            transform: translate(0px, 0px) rotate(90deg);
+  }
+  50%{
+    -webkit-transform: translate(0px, 15px) rotate(90deg);
+            transform: translate(0px, 15px) rotate(90deg);
+    
+  }
+  100%{
+    -webkit-transform: translate(0px, 0px) rotate(90deg);
+            transform: translate(0px, 0px) rotate(90deg);
+  }
+}
+
+@keyframes ship-bob {
+  0%{
+    -webkit-transform: translate(0px, 0px) rotate(90deg);
+            transform: translate(0px, 0px) rotate(90deg);
+  }
+  50%{
+    -webkit-transform: translate(0px, 15px) rotate(90deg);
+            transform: translate(0px, 15px) rotate(90deg);
+    
+  }
+  100%{
+    -webkit-transform: translate(0px, 0px) rotate(90deg);
+            transform: translate(0px, 0px) rotate(90deg);
+  }
+}
+
+@-webkit-keyframes App-logo-spin {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
