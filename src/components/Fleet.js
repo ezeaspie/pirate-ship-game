@@ -12,7 +12,10 @@ class Fleet extends Component {
         return(
             <div>
                     {this.props.fleet.map((ship)=>{
-                        return <Ship handleAttack={this.props.handleAttack} data={ship}/>;
+                        return <Ship 
+                        handleAttack={this.props.handleAttack} 
+                        data={ship}
+                        isPlayersTurn={this.props.isPlayersTurn}/>
                     })}
                 </div>
         )

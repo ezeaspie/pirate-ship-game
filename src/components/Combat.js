@@ -14,12 +14,14 @@ class Combat extends Component {
             playerFleet:[shipFactory("Moongazer",2,400,100,2122)],
             attackOrder:undefined,
             currentAttackerId:0,
+            isPlayersTurn:true,
         }
         this.handleAttack = this.handleAttack.bind(this);
     }
 
     componentDidMount(){
-        this.calculateAttackOrder()
+        let combinedFleets = this.calculateAttackOrder();
+        this.setState({attackOrder:combinedFleets},this.handlePreAttack);
     }
 
     calculateAttackOrder = () =>{
@@ -45,7 +47,7 @@ class Combat extends Component {
         combinedFleets.sort((a, b) => parseFloat(b.speed) - parseFloat(a.speed));
 
         console.log(combinedFleets);
-        this.setState({attackOrder:combinedFleets}, this.handlePreAttack);
+        return combinedFleets;
     }
 
     handlePreAttack = () => {
@@ -54,6 +56,7 @@ class Combat extends Component {
         //Check if an opponent ship. If so, delay, then choose attacks and execute.
         let attackOrder = this.state.attackOrder;
         let currentAttackerId = this.state.currentAttackerId;
+        let isPlayersTurn = this.state.attackOrder[currentAttackerId].isPlayer;
         
         attackOrder.forEach((ship)=>{
             ship.isActive = false;
@@ -61,7 +64,67 @@ class Combat extends Component {
 
         attackOrder[currentAttackerId].isActive = true;
 
-        this.setState({attackOrder});
+        this.setState({attackOrder,isPlayersTurn},
+            ()=>{
+                if(!this.state.isPlayersTurn){
+                    console.log("AI's TURN");
+                    setTimeout(this.handleAIAttack,1000);
+                }
+            });
+    }
+
+    handleAIAttack = () =>{
+        let possibleTargets = this.state.playerFleet;
+        let attackingShip = this.state.attackOrder[this.state.currentAttackerId];
+        let selectedTarget = undefined;
+        console.log(attackingShip);
+        let cannonDamage = this.calculateAllCannonDamage(attackingShip,true);
+
+        let possibleKills = possibleTargets.filter((ship)=>{
+            return ship.health - cannonDamage <= 0
+        })
+
+        if(possibleKills.length !== 0){
+            selectedTarget = possibleKills[Math.floor(Math.random() * possibleKills.length)];
+        }
+        else{
+            selectedTarget = possibleTargets[Math.floor(Math.random()*possibleTargets.length)];
+        }
+        this.handleAttack(selectedTarget,false);
+    }
+    handleShipSinking = (sunkenShip,isPlayer) =>{
+        //isPlayer in this context gives us the attacker, making the target fleets opposite of the IsPlayer value.
+        let targetFleet = this.state.opponentFleet;
+        if(!isPlayer){
+            targetFleet = this.state.playerFleet;
+        }
+
+        let index = targetFleet.findIndex((ship)=>{
+            return ship.uniqueId === sunkenShip.uniqueId;
+        })
+
+        targetFleet.splice(index,1);
+        return targetFleet;
+    }
+
+    calculateAllCannonDamage = (attacker,perfectAccuracy=false) =>{
+        //perfectAccuracy is used to return a number where all cannons will hit
+        let cannonsThatHit = [];
+        if(perfectAccuracy){
+            cannonsThatHit = attacker.cannons;
+        }
+        else{
+            attacker.cannons.forEach((cannon)=>{
+                let randomNum = Math.floor(Math.random() * 100); 
+                if(cannon.accuracy >= randomNum){
+                    cannonsThatHit.push(cannon);
+                    return;
+                }
+                return;
+            })
+        } 
+        let totalCannonDamage = cannonsThatHit.reduce((aggregator,currentVal)=> aggregator + currentVal.damage,0)
+        return totalCannonDamage;
     }
 
     handleAttack = (target,isPlayer) => {
@@ -79,55 +142,58 @@ class Combat extends Component {
             return target.uniqueId === ship.uniqueId;
         })
 
-        let cannonsThatHit = [];
-        attacker.cannons.forEach((cannon)=>{
-            let randomNum = Math.floor(Math.random() * 100); 
-            if(cannon.accuracy >= randomNum){
-                cannonsThatHit.push(cannon);
-                return;
-            }
-            return;
-        })
-
-        let totalCannonDamage = cannonsThatHit.reduce((aggregator,currentVal)=> aggregator + currentVal.damage,0)
+        let totalCannonDamage = this.calculateAllCannonDamage(attacker);
 
         targetShip[0].health -= totalCannonDamage;
 
+        let isShipDead = false;
+
         if(targetShip[0].health <= 0){
-            console.log("DEAD AS A MUG");
-            //write a function to handle ship sinking.
+            targetFleet = this.handleShipSinking(targetShip[0],isPlayer);
+            isShipDead = true;
         }
 
-        targetFleet.filter((ship)=>{
-            if(targetShip[0].uniqueId === ship.uniqueId){
-                ship = targetShip[0];
-                //Run next turn after updating everything.
-                this.setState(isPlayer?{opponentFleet:targetFleet}:{playerFleet:targetFleet},()=>this.handleEndOfTurn(isPlayer));
-                return true;
-            }
-            return false
-        })
+        if(!isShipDead){
+            //Update the ship's data in it's respective fleet.
+            targetFleet.filter((ship)=>{
+                if(targetShip[0].uniqueId === ship.uniqueId){
+                    ship = targetShip[0];
+                    return true;
+                }
+                return false
+            })  
+        }
+
+        this.setState(
+            isPlayer?{opponentFleet:targetFleet}:{playerFleet:targetFleet},
+            ()=>this.handleEndOfTurn(isPlayer)
+        );
+
+        
     }
 
     handleEndOfTurn = (isPlayer) => {
-        //Check for death?
         let activeFleet = undefined;
+
+        let attackOrder = this.calculateAttackOrder();
         if(isPlayer){
             activeFleet = this.state.playerFleet;
         }
         else{
             activeFleet = this.state.opponentFleet;
         }
-        //Check if the ship is last in array. If so, start at 0;
-        let length = this.state.attackOrder.length;
-        if(this.state.currentAttackerId + 1 >= length){
-            this.setState({currentAttackerId:0});
+        if(activeFleet.length === 0){
+            //handle opponent/player death accordingly.
         }
         else{
-            this.setState({currentAttackerId:this.state.currentAttackerId+1});
+            let length = attackOrder.length;
+            if(this.state.currentAttackerId + 1 >= length){
+                this.setState({currentAttackerId:0,attackOrder},this.handlePreAttack);
+            }
+            else{
+                this.setState({currentAttackerId:this.state.currentAttackerId+1},this.handlePreAttack);
+            }
         }
-        //If not, add 1.
-        //Check if AI or player ship
         //Run PreTurn.
         //Allow for attacks.
     }
@@ -139,6 +205,7 @@ class Combat extends Component {
                 <Fleet 
                     fleet={this.state.opponentFleet}
                     handleAttack={this.handleAttack}
+                    isPlayersTurn={this.state.isPlayersTurn}
                     isPlayer={false}
                 />
                 <Fleet
