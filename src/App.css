@@ -1,3 +1,32 @@
+html {
+  -webkit-animation: moveBackground ease-in-out 100s infinite;
+          animation: moveBackground ease-in-out 100s infinite;
+}
+
+@-webkit-keyframes moveBackground {
+  0%{
+    background-position: 0,0;
+  }
+  50%{
+    background-position: 20em,20em;
+  }
+  100%{
+    background-position: 0,0;
+  }
+}
+
+@keyframes moveBackground {
+  0%{
+    background-position: 0,0;
+  }
+  50%{
+    background-position: 20em,20em;
+  }
+  100%{
+    background-position: 0,0;
+  }
+}
+
 .App {
   text-align: center;
 }
@@ -38,9 +67,8 @@
   border:solid 1px blueviolet;
 }
 
-
-.combat-ship-image-container{
-  border: solid 1px red;
+.clickable:hover{
+  cursor: pointer;
 }
 
 .combat-cannons {
@@ -53,7 +81,12 @@
   -webkit-animation: ship-bob ease 6s infinite;
 
           animation: ship-bob ease 6s infinite;
+  -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+          filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
+}
 
+.active-ship .ship-image{
+            filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px  #FFA500);
 }
 
 @-webkit-keyframes ship-bob {

@@ -4,8 +4,8 @@ const shipFactory = (name,shipClass,health,speed,capacity) => {
     let uniqueId = Date.now() + Math.random()
     let typeFactory = (name, imageIds) => {
         let fullHealth = `./images/ship (${imageIds[0]}).png`;
-        let sixtyHealth = `./images/ship (${imageIds[1]}.png)`;
-        let thirtyHealth = `./images/ship (${imageIds[2]}.png)`;
+        let sixtyHealth = `./images/ship (${imageIds[1]}).png`;
+        let thirtyHealth = `./images/ship (${imageIds[2]}).png`;
         return {name,fullHealth,sixtyHealth,thirtyHealth}
     }
     let shipClasses = [
@@ -18,7 +18,7 @@ const shipFactory = (name,shipClass,health,speed,capacity) => {
         typeFactory("Galleon",[3,9,15]),
         typeFactory("Man of War",[2,8,14]),
     ]
-    return {name,shipClass: shipClasses[shipClass],health,speed, uniqueId, cannons:[cannonFactory(0)], capacity}
+    return {name,shipClass: shipClasses[shipClass],health,maxHealth:health,speed, uniqueId, cannons:[cannonFactory(0),cannonFactory(0)], capacity}
 }
 
 export default shipFactory

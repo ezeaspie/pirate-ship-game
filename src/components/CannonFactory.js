@@ -4,6 +4,9 @@ const cannonFactory = (type) => { //type must be an integer
     ]
 
     let cannonData = cannonTypes[type];
+
+    cannonData.uniqueId = Date.now() + Math.random();
+
     return cannonData;
 }
 

@@ -9,6 +9,16 @@ class Ship extends Component {
 
     render(){
         let allowClick = this.props.isPlayersTurn;
+        let imageid = this.props.data.shipClass.fullHealth;
+
+        if(this.props.data.health <= this.props.data.maxHealth * .6){
+            console.log("HELP IM DYING")
+            imageid = this.props.data.shipClass.sixtyHealth;
+        }      
+        if(imageid !== this.props.data.shipClass.fullHealth && this.props.data.health <= this.props.data.maxHealth * .35){
+            imageid = this.props.data.shipClass.thirtyHealth;
+        }
+          
 
         return(
             <div 
@@ -18,8 +28,8 @@ class Ship extends Component {
             } 
             className={this.props.data.isActive?"combat-ship active-ship":"combat-ship"}>
                 <h3>{this.props.data.health}</h3>
-                <div className="combat-ship-image-container">
-                <img src={this.props.data.shipClass.fullHealth} alt={this.props.data.shipClass.name}></img>
+                <div className={allowClick?"combat-ship-image-container clickable":"combat-ship-image-container"}>
+                <img className="ship-image" src={imageid} alt={this.props.data.shipClass.name}></img>
                 </div>
                 <h3>{this.props.data.name}</h3>
                 <h4>{this.props.data.shipClass.name}</h4>

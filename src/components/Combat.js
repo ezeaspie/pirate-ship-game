@@ -111,7 +111,7 @@ class Combat extends Component {
         //perfectAccuracy is used to return a number where all cannons will hit
         let cannonsThatHit = [];
         if(perfectAccuracy){
-            cannonsThatHit = attacker.cannons;
+            cannonsThatHit = attacker.cannons.length === 0?[]:attacker.cannons;
         }
         else{
             attacker.cannons.forEach((cannon)=>{
@@ -125,6 +125,25 @@ class Combat extends Component {
         } 
         let totalCannonDamage = cannonsThatHit.reduce((aggregator,currentVal)=> aggregator + currentVal.damage,0)
         return totalCannonDamage;
+    }
+
+    recieveAttack = (targetShip,damage) => {
+        targetShip.health -= damage;
+        //Check for cannon destruction
+        if(targetShip.cannons.length !== 0){
+            let targetedCannon = targetShip.cannons[Math.floor(Math.random() * targetShip.cannons.length)];
+            let randomNum = Math.floor(Math.random() * 100); 
+                if(targetedCannon.durability <= randomNum){
+                    console.log("CANNON BREAK!")
+                    let index = targetShip.cannons.findIndex((cannon)=>{
+                        return targetedCannon.uniqueId === cannon.uniqueId;
+                    })
+                    console.log(index);
+                    targetShip.cannons.splice(index,1);
+                }
+        }
+
+        return targetShip;
     }
 
     handleAttack = (target,isPlayer) => {
@@ -144,20 +163,20 @@ class Combat extends Component {
 
         let totalCannonDamage = this.calculateAllCannonDamage(attacker);
 
-        targetShip[0].health -= totalCannonDamage;
+        let damagedShipObject = this.recieveAttack(targetShip[0],totalCannonDamage);
 
         let isShipDead = false;
 
-        if(targetShip[0].health <= 0){
-            targetFleet = this.handleShipSinking(targetShip[0],isPlayer);
+        if(damagedShipObject.health <= 0){
+            targetFleet = this.handleShipSinking(damagedShipObject,isPlayer);
             isShipDead = true;
         }
 
         if(!isShipDead){
             //Update the ship's data in it's respective fleet.
             targetFleet.filter((ship)=>{
-                if(targetShip[0].uniqueId === ship.uniqueId){
-                    ship = targetShip[0];
+                if(damagedShipObject.uniqueId === ship.uniqueId){
+                    ship = damagedShipObject;
                     return true;
                 }
                 return false
