@@ -27,7 +27,7 @@ class Ship extends Component {
                 ()=>{this.props.handleAttack(this.props.data,true)}
             } 
             className={this.props.data.isActive?"combat-ship active-ship":"combat-ship"}>
-                <h3>{this.props.data.health}</h3>
+                <h3>{this.props.data.health}/{this.props.data.maxHealth}</h3>
                 <div className={allowClick?"combat-ship-image-container clickable":"combat-ship-image-container"}>
                 <img className="ship-image" src={imageid} alt={this.props.data.shipClass.name}></img>
                 </div>

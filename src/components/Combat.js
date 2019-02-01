@@ -62,6 +62,11 @@ class Combat extends Component {
             ship.isActive = false;
         })
 
+        if(this.state.attackOrder[currentAttackerId].cannons.length === 0){
+            this.handleEndOfTurn(this.state.attackOrder[currentAttackerId].isPlayer);
+            return;
+        }
+
         attackOrder[currentAttackerId].isActive = true;
 
         this.setState({attackOrder,isPlayersTurn},

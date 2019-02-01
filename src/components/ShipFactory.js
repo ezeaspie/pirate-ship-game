@@ -1,4 +1,5 @@
 import cannonFactory from './CannonFactory';
+import nameFactory from './NameFactory';
 
 const shipFactory = (name,shipClass,health,speed,capacity) => {
     let uniqueId = Date.now() + Math.random()
@@ -18,7 +19,7 @@ const shipFactory = (name,shipClass,health,speed,capacity) => {
         typeFactory("Galleon",[3,9,15]),
         typeFactory("Man of War",[2,8,14]),
     ]
-    return {name,shipClass: shipClasses[shipClass],health,maxHealth:health,speed, uniqueId, cannons:[cannonFactory(0),cannonFactory(0)], capacity}
+    return {name : nameFactory(),shipClass: shipClasses[shipClass],health,maxHealth:health,speed, uniqueId, cannons:[cannonFactory(0),cannonFactory(0)], capacity}
 }
 
 export default shipFactory
