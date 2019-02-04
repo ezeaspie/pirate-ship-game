@@ -11,6 +11,8 @@ class Ship extends Component {
         let allowClick = this.props.isPlayersTurn;
         let imageid = this.props.data.shipClass.fullHealth;
 
+        let showExtraInfo = this.props.showExtraInfo;
+
         if(this.props.data.health <= this.props.data.maxHealth * .6){
             console.log("HELP IM DYING")
             imageid = this.props.data.shipClass.sixtyHealth;
@@ -33,10 +35,21 @@ class Ship extends Component {
                 </div>
                 <h3>{this.props.data.name}</h3>
                 <h4>{this.props.data.shipClass.name}</h4>
+                {
+                    showExtraInfo?
+                    <div>
+                        <h5>{this.props.data.speed} Speed</h5>
+                        <h5>{this.props.data.capacity} Cargo Capacity</h5>
+                    </div>
+                    :null
+                }
                 <ul className="combat-cannons">
                     {
-                        this.props.data.cannons.map((cannon)=>{
-                            return <li><img alt="cannon" src={cannon.image}></img></li>
+                        this.props.data.cannons.map((cannon, i)=>{
+                            return (<li key={"cannon" + i}>
+                                <img alt="cannon" src={cannon.image}></img>
+                                {showExtraInfo?<h5>{cannon.damage} DMG</h5>:null}
+                                </li>)
                         })
                     }
                 </ul>

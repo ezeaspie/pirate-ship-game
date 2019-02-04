@@ -3,18 +3,34 @@ import shipFactory from './ShipFactory';
 import nameFactory from './NameFactory';
 import Ship from './Ship';
 
+import portData from './portData';
+
+
 class CharacterCreation extends Component {
     constructor(props){
         super(props);
         this.state = {
-            selectedShipId:0,
+            selectedShipId:undefined,
             selectedShipData:undefined,
             generatedShips:[shipFactory(nameFactory(),0,100,100),shipFactory(nameFactory(),0,100,100)],
+            nameValue:"",
+            error:false,
         }
     }
 
     sendSelectedShip = (e) => {
         e.preventDefault();
+        if(this.state.nameValue===""){
+            this.setState({error:"Please enter a name"})
+            return;
+        }
+        if(this.state.selectedShipData === undefined){
+            this.setState({error:"Please select a ship"})
+            return;
+        }
+
+        this.props.createPlayerObject(this.state.nameValue,[this.state.selectedShipData]);
+        this.props.showPort(portData[0]);
     }
 
     handleName = (e) => {
@@ -65,12 +81,14 @@ class CharacterCreation extends Component {
                         key={i} 
                         isPlayersTurn={true}
                         handleAttack={this.handleAttack}
+                        showExtraInfo={true}
                         />
                         )
                     })
                 }
                 </div>
-                <button className="main-button" onClick={(e)=>{this.sendStatObject(e)}}>Create Character ></button>
+                {!this.state.error?null:<p className="error">{this.state.error}</p>}
+                <button className="main-button" onClick={(e)=>{this.sendSelectedShip(e)}}>Create Character ></button>
             </form>
             </div>
         )

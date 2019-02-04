@@ -1,6 +1,12 @@
 const nameFactory = (filter=false) => {
 
     let singles = [
+        "Antoinette",
+        "Lady",
+        "Maiden",
+        "Emily Elizabeth the XIVV",
+        "Declan",
+        "The Elusive Matthew Santoro",
         "MoonGazer",
         "Purity",
         "King",
@@ -41,7 +47,13 @@ const nameFactory = (filter=false) => {
         "Mercy",
         "Slaughter",
         "Braiser",
-        "Wash Cycle"
+        "Wash Cycle",
+        "Chantilly",
+        "Chicago",
+        "De las Cuevas",
+        "Barbed Lance",
+        "Branding Iron",
+        "Addison Amy",
     ]
     let starters = [
         "S.S",
@@ -158,6 +170,15 @@ const nameFactory = (filter=false) => {
         "Zulekia",
         "Zaffron",
         "Purity",
+        "Declan",
+        "Messiah",
+        "Raider",
+        "Bandit",
+        "Shifter",
+        "Shaker",
+        "Ally",
+        "Breaker",
+        "Ferreria"
     ]
 
     let generatedPrefix = starters[Math.floor(Math.random() * starters.length)];

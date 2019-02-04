@@ -10,8 +10,8 @@ class Combat extends Component {
     constructor(props){
         super(props);
         this.state = {
-            opponentFleet:[shipFactory("SS Anne",0,100,28,121),shipFactory("Purity",1,200,10,9000)],
-            playerFleet:[shipFactory("Moongazer",2,400,100,2122)],
+            opponentFleet:this.props.opponent.fleet,
+            playerFleet:this.props.player.fleet,
             attackOrder:undefined,
             currentAttackerId:0,
             isPlayersTurn:true,

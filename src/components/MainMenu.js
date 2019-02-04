@@ -6,7 +6,7 @@ class MainMenu extends Component {
             <div className="main-menu">
                 <ul className="menu-list">
                     <li onClick={this.props.showCC}>Start New Game</li>
-                    <li>Continue Game</li>
+                    <li onClick={this.props.startCombat}>Continue Game</li>
                     <li>How to Play</li>
                 </ul>
             </div>
