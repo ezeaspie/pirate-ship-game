@@ -9,7 +9,7 @@ class Port extends Component {
         this.state = {
             currentView: false,
             generatedShipYard: undefined,
-            generatedShips:undefined
+            generatedShips:undefined,
         }
     }
 
@@ -22,7 +22,34 @@ class Port extends Component {
             return true;
         })
 
-        this.setState({generatedShips, generatedShipYard:<Shipyard changeCurrentView={this.changeCurrentView} shipClassesSold={this.props.port.shipClassesSold} generatedShips={generatedShips}/>})
+        this.setState({generatedShips, generatedShipYard:
+        <Shipyard 
+        player={this.props.player}
+        changeCurrentView={this.changeCurrentView} 
+        shipClassesSold={this.props.port.shipClassesSold} 
+        generatedShips={generatedShips}
+        updatePlayerState={this.props.updatePlayerState}
+        updateGeneratedShips={this.updateGeneratedShips}
+        />})
+    }
+
+    updateGeneratedShips = (shipData) => {
+        let generatedShips = this.state.generatedShips;
+        generatedShips.forEach((ship)=>{
+            if(ship === shipData){
+                try{
+                    if(ship.unavaliable !== undefined){
+                        throw new Error("This ship already has a defined 'unavaliable' property. This means the player is able to click on a ship that's meant to be disabled.")
+                    }
+                }
+                catch(err){
+                    console.log(err);
+                }
+                ship.unavaliable = true;
+            }
+        })
+
+        this.setState({generatedShips});
     }
 
     changeCurrentView = (whichView) => {

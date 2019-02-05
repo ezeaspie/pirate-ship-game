@@ -5,7 +5,6 @@ import shipFactory from './components/ShipFactory';
 import Port from './components/Port';
 import './App.css';
 import CharacterCreation from './components/CharacterCreation';
-import portData from './components/portData';
 
 class App extends Component {
   constructor(props){
@@ -13,14 +12,68 @@ class App extends Component {
     this.state = {
       player: undefined,
       currentPort:0,
-      gameScreen:<MainMenu showCC={this.showCharacterCreation} startCombat={this.startCombat}/>,
+      gameScreen:<MainMenu 
+      showCC={this.showCharacterCreation} 
+      startCombat={this.startCombat}
+      />,
     }
+  }
+
+  componentDidMount(){
+    if(localStorage.getItem("player") === null){
+      console.log("NO SAVE FOUND");
+    }
+    else{
+      console.log("SAVE FOUND");
+      this.loadGame();
+    }
+    setTimeout(()=>{
+      this.setState({gameScreen:
+        <MainMenu 
+        showCC={this.showCharacterCreation} 
+        startCombat={this.startCombat}
+        playerData={this.state.player}
+        showPort={this.showPort}
+        currentPort={this.state.currentPort}
+        />
+      })
+    },50)
+  }
+
+  updatePlayerState = (newPlayerObject) => {
+    let player = this.state.player;
+    try {
+      if(newPlayerObject.name === undefined){
+        throw new Error("Object must contain a name");
+      } 
+      if(!Array.isArray(newPlayerObject.fleet)) throw new Error("Fleet property must be an array");
+      if(newPlayerObject.fleet === undefined){
+        throw new Error("Object must contain a fleet property");
+      }
+      if(newPlayerObject.fleet.length > 5){
+        throw new Error("Player cannot have more than 6 ships in her fleet");
+      }
+    }
+    catch(err) {
+      console.log(err);
+    }
+
+  }
+
+  loadGame = () => {
+    let player = JSON.parse(localStorage.getItem("player"));
+
+    this.setState({player});
+  }
+
+  saveGame = () => {
+    let player = JSON.stringify(this.state.player);
+    localStorage.setItem("player",player);
   }
 
   createPlayerObject = (name,fleet,money=100) => {
     let player = {name,fleet,money}
-
-    this.setState({player});
+    this.setState({player},this.saveGame);
   }
 
   createOpponentObject = (name,fleet) => {
@@ -28,15 +81,30 @@ class App extends Component {
   }
 
   showMainMenu = () => {
-    this.setState({gameScreen:<MainMenu showCC={this.showCharacterCreation} startCombat={this.startCombat}/>})
+    this.setState({gameScreen:<MainMenu 
+      showCC={this.showCharacterCreation} 
+      startCombat={this.startCombat}
+      playerData={this.state.player}
+      showPort={this.showPort}
+      currentPort={this.state.currentPort}
+      />})
   }
 
   showCharacterCreation = () => {
-    this.setState({gameScreen:<CharacterCreation createPlayerObject={this.createPlayerObject } showPort={this.showPort}/>});
+    this.setState({
+      gameScreen:<CharacterCreation 
+      createPlayerObject={this.createPlayerObject } 
+      showPort={this.showPort}
+      />});
   }
 
   showPort = (portData) => {
-  this.setState({gameScreen:<Port port={portData} startCombat={this.startCombat}/>})
+  this.setState({gameScreen:<Port 
+    port={portData} 
+    startCombat={this.startCombat}
+    updatePlayerState={this.updatePlayerState}
+    player={this.state.player}
+    />})
   }
 
   startCombat = (opponent=undefined) => {

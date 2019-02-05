@@ -66,7 +66,8 @@ const shipFactory = (name,shipClass) => {
             generateRandomWithRange(1,6),
             generateRandomWithRange(1,8),
         ],
-        [2,2,3,3,4,5,6,8],
+        [2,2,3,3,4,5,6,8],//Cannon Capacity,
+        [200,400,1000,2000,5000,10000,25000,50000],//Base Prices
     ]
 
     let decidedHealth = statRanges[0][shipClass];
@@ -78,6 +79,8 @@ const shipFactory = (name,shipClass) => {
     let maxCannons = statRanges[4][shipClass];
 
     let numberOfEquippedCannons = statRanges[3][shipClass];
+
+    let calculatedPrice = statRanges[5][shipClass] + (decidedCapacity + decidedSpeed + (numberOfEquippedCannons * 100));
 
     let cannons = [];
 
@@ -95,6 +98,7 @@ const shipFactory = (name,shipClass) => {
         uniqueId, 
         cannons,
         capacity: decidedCapacity,
+        price:calculatedPrice,
     }
 }
 

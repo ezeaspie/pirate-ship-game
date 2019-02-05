@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import portData from './portData';
 
 class MainMenu extends Component {
     render(){
@@ -6,7 +7,15 @@ class MainMenu extends Component {
             <div className="main-menu">
                 <ul className="menu-list">
                     <li onClick={this.props.showCC}>Start New Game</li>
-                    <li onClick={this.props.startCombat}>Continue Game</li>
+                    <li 
+                    onClick={()=>{
+                        if(this.props.playerData!==undefined){
+                            this.props.showPort(portData[this.props.currentPort]);
+                            return;
+                        }
+                        return;
+                    }}
+                    >Continue Game</li>
                     <li>How to Play</li>
                 </ul>
             </div>

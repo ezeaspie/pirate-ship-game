@@ -1,19 +1,33 @@
 import React, {Component} from 'react';
+import ShipSale from './ShipSale';
 
 class Shipyard extends Component {
+
+    buyShip = (ship) => {
+        let player = this.props.player;
+        if(player.money >= ship.price){
+            player.money -= ship.price;
+            player.fleet.push(ship);
+            this.props.updateGeneratedShips(ship);
+            this.props.updatePlayerState(player);
+            return true;
+        }
+        else{
+            return false;
+            //return message that says you dont have enough money.
+        }
+    }
+
     render(){
         let generatedShips = this.props.generatedShips;
         return(
             <div className="shipyard">
                 <h2>Buy Ships</h2>
                 {generatedShips.map((ship)=>{
-                    return (<div className="ship-sale" key={ship.uniqueId}>
-                        <h3>{ship.name}</h3>
-                        <h3>{ship.shipClass.name}</h3>
-                        <img src={ship.shipClass.fullHealth} alt={ship.shipClass.name}></img>
-                        <h5>{ship.speed} Speed</h5>
-                        <h5>{ship.capacity} Cargo Capacity</h5>
-                    </div>
+                    return (
+                    <ShipSale 
+                    ship={ship} 
+                    buyShip={this.buyShip}/>
                     )
                 })}
                 <button onClick={()=>{this.props.changeCurrentView(false)}}>Back</button>
