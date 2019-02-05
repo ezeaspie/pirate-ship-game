@@ -99,6 +99,9 @@ const shipFactory = (name,shipClass) => {
         cannons,
         capacity: decidedCapacity,
         price:calculatedPrice,
+        hull:0,
+        sails:0,
+        cargoBay:0,
     }
 }
 

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Shipyard from './Shipyard';
 import shipFactory from './ShipFactory';
+import ShipWright from './ShipWright';
 
 
 class Port extends Component {
@@ -55,6 +56,10 @@ class Port extends Component {
     changeCurrentView = (whichView) => {
         let views = [
             this.state.generatedShipYard,
+            <ShipWright 
+            player={this.props.player}
+            updatePlayerState={this.props.updatePlayerState}
+            />
         ]
 
         let selectedView = whichView === false?whichView:views[whichView];
@@ -72,6 +77,7 @@ class Port extends Component {
                 <h1>{this.props.port.name}</h1>
                 <button>MarketPlace</button>
                 <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
+                <button onClick={()=>{this.changeCurrentView(1)}}>ShipWright</button>
                 <button>Warehouse</button>
                 <button onClick = {()=>{this.props.startCombat()}}>Head to Next Port</button>
             </div>
