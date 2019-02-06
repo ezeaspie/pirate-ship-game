@@ -26,6 +26,7 @@ class Shipyard extends Component {
                 {generatedShips.map((ship)=>{
                     return (
                     <ShipSale 
+                    key={ship.uniqueId}
                     ship={ship} 
                     buyShip={this.buyShip}/>
                     )

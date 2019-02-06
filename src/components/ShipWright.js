@@ -23,6 +23,7 @@ class ShipWright extends Component {
                                 }
                                 <UpgradeShip 
                                 updatePlayerState={this.handleUpgrade}
+                                generatedCannons={this.props.generatedCannons}
                                 player={this.props.player}
                                 ship={ship}
                                 />
@@ -31,7 +32,10 @@ class ShipWright extends Component {
                         )
                     })
                 }
-                
+            <button onClick={()=>{
+                this.props.changeCurrentView(false);
+                this.props.updateHudState(true,false);
+                }}>Back</button>
             </div>
         )
     }

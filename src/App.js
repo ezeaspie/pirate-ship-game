@@ -5,6 +5,7 @@ import shipFactory from './components/ShipFactory';
 import Port from './components/Port';
 import './App.css';
 import CharacterCreation from './components/CharacterCreation';
+import HUD from './components/HUD';
 
 class App extends Component {
   constructor(props){
@@ -12,6 +13,7 @@ class App extends Component {
     this.state = {
       player: undefined,
       currentPort:0,
+      hudProps:{show:false,showOnlyGold:false},
       gameScreen:<MainMenu 
       showCC={this.showCharacterCreation} 
       startCombat={this.startCombat}
@@ -35,13 +37,13 @@ class App extends Component {
         playerData={this.state.player}
         showPort={this.showPort}
         currentPort={this.state.currentPort}
+        updateHudState={this.updateHudState}
         />
       })
     },50)
   }
 
   updatePlayerState = (newPlayerObject) => {
-    let player = this.state.player;
     try {
       if(newPlayerObject.name === undefined){
         throw new Error("Object must contain a name");
@@ -58,6 +60,8 @@ class App extends Component {
       console.log(err);
     }
 
+    this.setState({player:newPlayerObject});
+
   }
 
   loadGame = () => {
@@ -68,6 +72,7 @@ class App extends Component {
 
   saveGame = () => {
     let player = JSON.stringify(this.state.player);
+    console.log("saved");
     localStorage.setItem("player",player);
   }
 
@@ -87,6 +92,7 @@ class App extends Component {
       playerData={this.state.player}
       showPort={this.showPort}
       currentPort={this.state.currentPort}
+      updateHudState={this.updateHudState}
       />})
   }
 
@@ -95,17 +101,27 @@ class App extends Component {
       gameScreen:<CharacterCreation 
       createPlayerObject={this.createPlayerObject } 
       showPort={this.showPort}
+      updateHudState={this.updateHudState}
       />});
   }
 
   showPort = (portData) => {
-  this.setState({gameScreen:<Port 
-    port={portData} 
-    startCombat={this.startCombat}
-    updatePlayerState={this.updatePlayerState}
-    player={this.state.player}
-    />})
+  this.setState({gameScreen:
+    <div>
+      <Port
+      port={portData} 
+      startCombat={this.startCombat}
+      updatePlayerState={this.updatePlayerState}
+      player={this.state.player}
+      updateHudState={this.updateHudState}
+    />
+    </div>
+  })
   }
+
+  updateHudState = (showHud,showOnlyGold=false) => {
+    this.setState({hudProps:{show:showHud,showOnlyGold}});
+  } 
 
   startCombat = (opponent=undefined) => {
     let object = opponent;
@@ -118,9 +134,21 @@ class App extends Component {
   }
 
   render() {
+    let showHud = this.state.hudProps.show;
     return (
       <div className="App">
         {this.state.gameScreen}
+        {
+          showHud?
+          <HUD 
+            showOnlyGold={this.state.hudProps.showOnlyGold}
+            player={this.state.player}
+            updatePlayerState={this.updatePlayerState}
+            saveGame={this.saveGame}
+          />
+          :
+          null
+        }
       </div>
     );
   }

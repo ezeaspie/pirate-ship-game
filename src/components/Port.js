@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Shipyard from './Shipyard';
 import shipFactory from './ShipFactory';
 import ShipWright from './ShipWright';
+import cannonFactory from './CannonFactory';
 
 
 class Port extends Component {
@@ -11,11 +12,13 @@ class Port extends Component {
             currentView: false,
             generatedShipYard: undefined,
             generatedShips:undefined,
+            generatedCannons:undefined,
         }
     }
 
     componentDidMount(){
         let generatedShips = [];
+        let generatedCannons = [];
 
         this.props.port.shipClassesSold.map((shipType)=>{
             let ship = shipFactory(undefined,shipType);
@@ -23,7 +26,13 @@ class Port extends Component {
             return true;
         })
 
-        this.setState({generatedShips, generatedShipYard:
+        this.props.port.cannonsSold.map((cannonType)=>{
+            let cannon = cannonFactory(cannonType);
+            generatedCannons.push(cannon);
+            return true;
+        })
+
+        this.setState({generatedShips, generatedCannons, generatedShipYard:
         <Shipyard 
         player={this.props.player}
         changeCurrentView={this.changeCurrentView} 
@@ -59,6 +68,9 @@ class Port extends Component {
             <ShipWright 
             player={this.props.player}
             updatePlayerState={this.props.updatePlayerState}
+            updateHudState={this.props.updateHudState}
+            changeCurrentView={this.changeCurrentView}
+            generatedCannons={this.state.generatedCannons}
             />
         ]
 
@@ -77,7 +89,10 @@ class Port extends Component {
                 <h1>{this.props.port.name}</h1>
                 <button>MarketPlace</button>
                 <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
-                <button onClick={()=>{this.changeCurrentView(1)}}>ShipWright</button>
+                <button onClick={()=>{
+                    this.changeCurrentView(1);
+                    this.props.updateHudState(true,true);
+                    }}>ShipWright</button>
                 <button>Warehouse</button>
                 <button onClick = {()=>{this.props.startCombat()}}>Head to Next Port</button>
             </div>
