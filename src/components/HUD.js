@@ -1,4 +1,5 @@
 import React , {Component} from 'react';
+import upgradeData from './upgradeData';
 
 class HUD extends Component {
 
@@ -15,6 +16,17 @@ class HUD extends Component {
     render(){
 
         let hideProperty = "";
+
+        let cargoCapacity = this.props.player.fleet.reduce((acc,ship) => { 
+            let cargoBayBonus = upgradeData[2][ship.cargoBay].bonus;
+            return acc + (ship.capacity + cargoBayBonus); 
+        }, 0); // 7
+
+        let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
+            return acc + (cargo.quantity * cargo.size);
+        },0)
+
+        console.log(currentCargo);
 
         if(this.props.showOnlyGold){
             hideProperty = "hidden-hud"
@@ -42,6 +54,10 @@ class HUD extends Component {
                 <div className="gold-status">
                     <p>{this.props.player.money}</p>
                     <img src="./images/gold.gif" alt="gold-coin"/>
+                </div>
+                <div className="cargo-status">
+                    <img src="./images/crate.png" alt="cargo-icon"/>
+                    <p>{currentCargo}/{cargoCapacity}</p>
                 </div>
                 <button 
                 className={`save ${hideProperty}`}

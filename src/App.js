@@ -6,6 +6,7 @@ import Port from './components/Port';
 import './App.css';
 import CharacterCreation from './components/CharacterCreation';
 import HUD from './components/HUD';
+import goods from './components/goodsData';
 
 class App extends Component {
   constructor(props){
@@ -77,7 +78,25 @@ class App extends Component {
   }
 
   createPlayerObject = (name,fleet,money=100) => {
-    let player = {name,fleet,money}
+    let cargo = [];
+
+    goods.forEach((good)=>{
+      let item = {
+        name:good.name,
+        image:good.image,
+        size:good.size,
+        volatility:good.volatility,
+        contrabandChance:good.contrabandChance,
+        quantity:0,
+      }
+      cargo.push(item);
+    })
+    let player = {
+      name,
+      fleet,
+      cargo,
+      money
+    }
     this.setState({player},this.saveGame);
   }
 

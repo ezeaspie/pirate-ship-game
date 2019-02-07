@@ -3,7 +3,8 @@ import Shipyard from './Shipyard';
 import shipFactory from './ShipFactory';
 import ShipWright from './ShipWright';
 import cannonFactory from './CannonFactory';
-
+import goods from './goodsData';
+import Marketplace from './Marketplace';
 
 class Port extends Component {
     constructor(props){
@@ -12,6 +13,7 @@ class Port extends Component {
             currentView: false,
             generatedShipYard: undefined,
             generatedShips:undefined,
+            generatedGoods:undefined,
             generatedCannons:undefined,
         }
     }
@@ -19,6 +21,7 @@ class Port extends Component {
     componentDidMount(){
         let generatedShips = [];
         let generatedCannons = [];
+        let generatedGoods = [];
 
         this.props.port.shipClassesSold.map((shipType)=>{
             let ship = shipFactory(undefined,shipType);
@@ -32,7 +35,25 @@ class Port extends Component {
             return true;
         })
 
-        this.setState({generatedShips, generatedCannons, generatedShipYard:
+        for(let i = 0; i<this.props.port.goodsSold; i++){
+            let generateRandomWithRange = (maximum,minimum) => {
+                return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+            }
+            let currentGood = goods[i];
+            let floorPrice = goods[i].basePrice - goods[i].volatility;
+            let peakPrice = goods[i].basePrice + goods[i].volatility;
+
+            let newPrice = generateRandomWithRange(peakPrice,floorPrice);
+
+            if(newPrice <= 0){
+                newPrice = 1;
+            }
+
+            currentGood.currentPrice = newPrice;
+            
+            generatedGoods.push(currentGood);
+        }
+        this.setState({generatedShips, generatedCannons, generatedGoods,generatedShipYard:
         <Shipyard 
         player={this.props.player}
         changeCurrentView={this.changeCurrentView} 
@@ -71,6 +92,11 @@ class Port extends Component {
             updateHudState={this.props.updateHudState}
             changeCurrentView={this.changeCurrentView}
             generatedCannons={this.state.generatedCannons}
+            />,
+            <Marketplace 
+            generatedGoods={this.state.generatedGoods}
+            player={this.props.player}
+            updatePlayerState={this.props.updatePlayerState}
             />
         ]
 
@@ -81,13 +107,14 @@ class Port extends Component {
     }
 
     render(){
+
         return(
             
             <div className="port">
             {!this.state.currentView?
             <div className="current-port-view">
                 <h1>{this.props.port.name}</h1>
-                <button>MarketPlace</button>
+                <button onClick={()=>{this.changeCurrentView(2)}}>MarketPlace</button>
                 <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
                 <button onClick={()=>{
                     this.changeCurrentView(1);

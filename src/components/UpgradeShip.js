@@ -17,25 +17,25 @@ class UpgradeShip extends Component{
         let ship = this.props.ship;
         let player = this.props.player;
 
-        if(player.money >= upgradeData.price){
-            player.money -= upgradeData.price;
+        if(player.money >= upgradeData.next.price){
+            player.money -= upgradeData.next.price;
+            player.fleet.forEach((playerShip)=>{
+                if(playerShip.uniqueId === ship.uniqueId){
+                    if(whichUpgrade === 0){
+                        playerShip.hull += 1;
+                    }
+                    if(whichUpgrade === 1){
+                        playerShip.sails += 1;
+                    }
+                    if(whichUpgrade === 2){
+                        playerShip.cargoBay += 1;
+                    }
+                }
+            })
+    
+            this.props.updatePlayerState(player);
+            this.forceUpdate();
         }
-        player.fleet.forEach((playerShip)=>{
-            if(playerShip.uniqueId === ship.uniqueId){
-                if(whichUpgrade === 0){
-                    playerShip.hull += 1;
-                }
-                if(whichUpgrade === 1){
-                    playerShip.sails += 1;
-                }
-                if(whichUpgrade === 2){
-                    playerShip.cargoBay += 1;
-                }
-            }
-        })
-
-        this.props.updatePlayerState(player);
-        this.forceUpdate();
     }
 
     handleCannonRemoval = (cannon) => {
@@ -106,7 +106,7 @@ class UpgradeShip extends Component{
                 stat:"Capacity",
                 current: currentCargo,
                 next: nextCargo,
-                id:ship.cargo,
+                id:ship.cargoBay,
                 upgradeLength: upgradeData[2].length,
             },
             {

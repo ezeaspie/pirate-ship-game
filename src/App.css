@@ -531,3 +531,17 @@ html {
 .hidden-hud{
   display: none;
 }
+
+.goods-list {
+  border:solid 1px;
+  display: flex;
+  list-style-type: none;
+  margin:0;
+  padding: 0;
+  justify-content: center;
+}
+
+.good img {
+  width:36px;
+  height: 36px;
+}
