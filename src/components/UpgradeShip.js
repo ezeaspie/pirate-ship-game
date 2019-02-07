@@ -59,15 +59,19 @@ class UpgradeShip extends Component{
     handleCannonPurchase = (cannon) => {
         let ship = this.props.ship;
         let player = this.props.player;
-        
-        player.fleet.forEach((playerShip)=>{
-            if(playerShip.uniqueId === ship.uniqueId){
-                playerShip.cannons.push(cannon);
-            }
-        })
 
-        this.props.updatePlayerState(player);
-        this.forceUpdate();
+        if(player.money >= cannon.price){
+            player.fleet.forEach((playerShip)=>{
+                if(playerShip.uniqueId === ship.uniqueId){
+                    playerShip.cannons.push(cannon);
+                }
+            })
+            player.money -= cannon.price;
+            this.props.updatePlayerState(player);
+            this.forceUpdate();
+            return;
+        }
+        return;
     }
 
     render(){
@@ -171,7 +175,14 @@ class UpgradeShip extends Component{
                                 {
                                     this.props.generatedCannons.map((cannonForSale)=>{
                                         return(
-                                            <button onClick={()=>{this.handleCannonPurchase(cannonForSale)}}>
+                                            <button onClick={()=>{
+                                                if(ship.cannons.length < ship.maxCannons){
+                                                    this.handleCannonPurchase(cannonForSale);
+                                                    return;
+                                                }
+                                                console.log(ship.cannons.length +1, ship.maxCannons)
+                                                return;
+                                                }}>
                                                 <img src={cannonForSale.image} alt={cannonForSale.name}/>
                                                 <h5>{cannonForSale.name}</h5>
                                                 <h5>{cannonForSale.damage} DMG</h5>
