@@ -10,7 +10,7 @@ class Port extends Component {
     constructor(props){
         super(props);
         this.state = {
-            currentView: false,
+            currentView: 3,
             generatedShipYard: undefined,
             generatedShips:undefined,
             generatedGoods:undefined,
@@ -84,51 +84,51 @@ class Port extends Component {
     }
 
     changeCurrentView = (whichView) => {
-        let views = [
-            this.state.generatedShipYard,
-            <ShipWright 
-            player={this.props.player}
-            updatePlayerState={this.props.updatePlayerState}
-            updateHudState={this.props.updateHudState}
-            changeCurrentView={this.changeCurrentView}
-            generatedCannons={this.state.generatedCannons}
-            />,
-            <Marketplace 
-            generatedGoods={this.state.generatedGoods}
-            player={this.props.player}
-            updatePlayerState={this.props.updatePlayerState}
-            />
-        ]
-
-        let selectedView = whichView === false?whichView:views[whichView];
-        console.log(selectedView);
-
-        this.setState({currentView:selectedView});
+        this.setState({currentView:whichView});
     }
 
     render(){
 
+        let getCurrentView = () => {
+            //views[3] is the 'main' port view
+            let views = [
+                this.state.generatedShipYard,
+                <ShipWright 
+                player={this.props.player}
+                updatePlayerState={this.props.updatePlayerState}
+                updateHudState={this.props.updateHudState}
+                changeCurrentView={this.changeCurrentView}
+                generatedCannons={this.state.generatedCannons}
+                />,
+                <Marketplace 
+                generatedGoods={this.state.generatedGoods}
+                player={this.props.player}
+                updatePlayerState={this.props.updatePlayerState}
+                />,
+                <div className="current-port-view">
+                    <h1>{this.props.port.name}</h1>
+                    <button onClick={()=>{this.changeCurrentView(2)}}>MarketPlace</button>
+                    <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
+                    <button onClick={()=>{
+                        this.changeCurrentView(1);
+                        this.props.updateHudState(true,true);
+                        }}>ShipWright</button>
+                    <button>Warehouse</button>
+                    <button onClick = {()=>{this.props.startCombat()}}>Head to Next Port</button>
+                </div>
+            ]
+    
+            let selectedView = views[this.state.currentView];
+    
+            return selectedView;
+        }
+
+        let selectedView = getCurrentView();
+
         return(
             
             <div className="port">
-            {!this.state.currentView?
-            <div className="current-port-view">
-                <h1>{this.props.port.name}</h1>
-                <button onClick={()=>{this.changeCurrentView(2)}}>MarketPlace</button>
-                <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
-                <button onClick={()=>{
-                    this.changeCurrentView(1);
-                    this.props.updateHudState(true,true);
-                    }}>ShipWright</button>
-                <button>Warehouse</button>
-                <button onClick = {()=>{this.props.startCombat()}}>Head to Next Port</button>
-            </div>
-                :
-            <div className="current-port-view">
-                {this.state.currentView}
-            </div>
-                }
-                
+            {selectedView}      
             </div>
         )
     }

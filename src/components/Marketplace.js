@@ -14,6 +14,8 @@ class Marketplace extends Component {
             return acc + (cargo.quantity * cargo.size);
         },0)
 
+        console.log(currentCargo);
+
         return(
             <div className="marketplace">
                 <h1>Marketplace</h1>
@@ -22,6 +24,7 @@ class Marketplace extends Component {
                         this.props.generatedGoods.map((good,i)=>{
                             return (
                                 <Good 
+                                key={"good" + i}
                                 index={i}
                                 updatePlayerState = {this.props.updatePlayerState}
                                 cargoCapacity={cargoCapacity}

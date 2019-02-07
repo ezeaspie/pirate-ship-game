@@ -31,7 +31,7 @@ class Shipyard extends Component {
                     buyShip={this.buyShip}/>
                     )
                 })}
-                <button onClick={()=>{this.props.changeCurrentView(false)}}>Back</button>
+                <button onClick={()=>{this.props.changeCurrentView(3)}}>Back</button>
             </div>
         )
     }

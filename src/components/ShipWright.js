@@ -33,7 +33,7 @@ class ShipWright extends Component {
                     })
                 }
             <button onClick={()=>{
-                this.props.changeCurrentView(false);
+                this.props.changeCurrentView(3);
                 this.props.updateHudState(true,false);
                 }}>Back</button>
             </div>

@@ -26,7 +26,10 @@ class Good extends Component {
         if(fitsInCargoBay && canPay && this.state.buyMultiplier > 0){
             let player = this.props.player;
             player.money -= (this.state.buyMultiplier * this.props.good.currentPrice);
-            player.cargo[this.props.index].quantity += this.state.buyMultiplier;
+            let playerQuantity = Number(player.cargo[this.props.index].quantity);
+            let boughtQuantity = Number(this.state.buyMultiplier);
+
+            player.cargo[this.props.index].quantity = playerQuantity + boughtQuantity;
             this.props.updatePlayerState(player);
             this.setState({buyMultiplier:0});
         }
@@ -61,6 +64,8 @@ class Good extends Component {
         let good = this.props.good;
         let price = good.currentPrice;
         let ownedAmount = this.props.player.cargo[this.props.index].quantity;
+
+        console.log(this.props.currentCargo);
 
         return(
             <li key={good.name} className="good">
