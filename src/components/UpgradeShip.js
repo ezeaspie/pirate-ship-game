@@ -162,7 +162,7 @@ class UpgradeShip extends Component{
                                 {
                                     ship.cannons.map((cannon)=>{
                                         return (
-                                            <li>
+                                            <li key={cannon.uniqueId}>
                                                 <img src={cannon.image} alt={cannon.name}/>
                                                 <h5>{cannon.name}</h5>
                                                 <h5>{cannon.damage}</h5>
@@ -175,7 +175,7 @@ class UpgradeShip extends Component{
                                 {
                                     this.props.generatedCannons.map((cannonForSale)=>{
                                         return(
-                                            <button onClick={()=>{
+                                            <button key={cannonForSale.uniqueId} onClick={()=>{
                                                 if(ship.cannons.length < ship.maxCannons){
                                                     this.handleCannonPurchase(cannonForSale);
                                                     return;

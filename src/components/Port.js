@@ -104,6 +104,7 @@ class Port extends Component {
                 generatedGoods={this.state.generatedGoods}
                 player={this.props.player}
                 updatePlayerState={this.props.updatePlayerState}
+                changeCurrentView={this.changeCurrentView}
                 />,
                 <div className="current-port-view">
                     <h1>{this.props.port.name}</h1>

@@ -35,6 +35,7 @@ class Marketplace extends Component {
                         })
                     }
                 </ul>
+                <button onClick={()=>{this.props.changeCurrentView(3)}}>Back</button>
 
             </div>
         )

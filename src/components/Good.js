@@ -10,6 +10,19 @@ class Good extends Component {
         }
     }
 
+    handleSale = (e) => {
+        e.preventDefault();
+        let player = this.props.player;
+            player.money += (this.state.sellMultiplier * this.props.good.currentPrice);
+        let playerQuantity = Number(player.cargo[this.props.index].quantity);
+        let soldQuantity = Number(this.state.sellMultiplier);
+
+        player.cargo[this.props.index].quantity = playerQuantity - soldQuantity;
+        this.props.updatePlayerState(player);
+        this.setState({sellMultiplier:0});
+
+    }
+
     handlePurchase = (e) =>{
         //Add quantity,
         //Deduct money,
@@ -94,7 +107,7 @@ class Good extends Component {
                             value={this.state.buyMultiplier}/>
                             <input type="submit" value={`Purchase for ${this.state.buyMultiplier * price}`}/>
                         </form>
-                        <form className="amount sell"  onSubmit={(e)=>this.handlePurchase}>
+                        <form className="amount sell"  onSubmit={(e)=>{this.handleSale(e)}}>
                             <input 
                             type="number"
                             onChange={(e)=>{this.handleInputChange(e,false)}} 
