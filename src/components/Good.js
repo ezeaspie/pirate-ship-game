@@ -15,8 +15,13 @@ class Good extends Component {
         //Deduct money,
         //run submit time checks to avoid exploits
         e.preventDefault();
+
+        let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
+            return acc + (cargo.quantity * cargo.size);
+        },0)
+
         let fitsInCargoBay = false;
-        if(this.props.currentCargo + (this.props.good.size * this.state.buyMultiplier) <= this.props.cargoCapacity){
+        if(currentCargo + (this.props.good.size * this.state.buyMultiplier) <= this.props.cargoCapacity){
             fitsInCargoBay = true;
         }
         let canPay = false;
@@ -37,8 +42,13 @@ class Good extends Component {
     
 
     handleInputChange = (e,buyOrSell) =>{
+
+        let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
+            return acc + (cargo.quantity * cargo.size);
+        },0)
+
         let fitsInCargoBay = false;
-        if(this.props.currentCargo + (this.props.good.size * e.target.value) <= this.props.cargoCapacity){
+        if(currentCargo + (this.props.good.size * e.target.value) <= this.props.cargoCapacity){
             fitsInCargoBay = true;
         }
         let canPay = false;
