@@ -7,6 +7,7 @@ import './App.css';
 import CharacterCreation from './components/CharacterCreation';
 import HUD from './components/HUD';
 import goods from './components/goodsData';
+import Overlay from './components/Overlay';
 
 class App extends Component {
   constructor(props){
@@ -19,6 +20,7 @@ class App extends Component {
       showCC={this.showCharacterCreation} 
       startCombat={this.startCombat}
       />,
+      overlayStatus:0,
     }
   }
 
@@ -115,6 +117,10 @@ class App extends Component {
       />})
   }
 
+  updateOverlayState = (newOverlayState) => {
+    this.setState({overlayStatus:newOverlayState});
+  }
+
   showCharacterCreation = () => {
     this.setState({
       gameScreen:<CharacterCreation 
@@ -154,8 +160,17 @@ class App extends Component {
 
   render() {
     let showHud = this.state.hudProps.show;
+    let overlayStatus = this.state.overlayStatus;
     return (
       <div className="App">
+      {
+        this.state.player !== undefined?
+          <Overlay 
+          status={overlayStatus} 
+          player={this.state.player}
+          updateOverlayState={this.updateOverlayState}/>:
+          null
+      }
         {this.state.gameScreen}
         {
           showHud?
@@ -164,6 +179,7 @@ class App extends Component {
             player={this.state.player}
             updatePlayerState={this.updatePlayerState}
             saveGame={this.saveGame}
+            updateOverlayState={this.updateOverlayState}
           />
           :
           null

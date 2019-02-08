@@ -190,16 +190,46 @@ html {
   position: fixed;
   bottom:5%;
   left: 0;
-  right:5%;
   z-index: -9;
   display: flex;
-  flex-direction: column;
+  border:solid 1px;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
 }
 
 .hud h2 {
   align-self: end;
   padding: 0 1em;
-  
+}
+
+.map-icon{
+  background: 0;
+  border:0;
+  width: 100px;
+}
+
+.map-icon:hover{
+  cursor: pointer;
+  animation: vibrate ease-in-out .2s;
+}
+
+@keyframes vibrate{
+  0%{
+    transform: rotate(0deg);
+  }
+  25%{
+    transform: rotate(5deg);
+  }
+  75%{
+    transform: rotate(-5deg);
+  }
+   100%{
+    transform: rotate(0deg);
+  }
+}
+.map-icon img{
+  width: 100%;
 }
 
 .fleet-status{
@@ -453,10 +483,10 @@ html {
   position: fixed;
   bottom:5%;
   left: 0;
-  right:5%;
+  right:0;
   z-index: -9;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .hud h2 {
@@ -533,7 +563,6 @@ html {
 }
 
 .goods-list {
-  border:solid 1px;
   display: flex;
   list-style-type: none;
   margin:0;
@@ -544,4 +573,29 @@ html {
 .good img {
   width:36px;
   height: 36px;
+}
+
+.overlay{
+  position: fixed;
+  display: flex;
+  background: #ebd5b3;
+  top:-100%;
+  bottom:100%;
+  transition:ease-in-out .4s all;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-shown{
+  top:0%;
+  bottom:0%;
+  left:0;
+  right:0;
+  transition:ease-in-out .4s all;
+}
+
+.overlay .main {
+  display: flex;
+  flex-wrap: wrap;
 }

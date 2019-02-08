@@ -35,33 +35,44 @@ class HUD extends Component {
 
         return(
             <div className="hud">
-                <h2 className={hideProperty}>Captain {this.props.player.name}</h2>
-                <ul className={`fleet-status ${hideProperty}`}>
-                    {
-                        this.props.player.fleet.map((ship)=>{
-                            let imageid = ship.shipClass.fullHealth;
+                <div className="player-map-info">
+                    <button className="map-icon"><img src="./images/map.png" alt="treasure-map-icon"></img></button>
+                </div>
+                <div className="player-hud-info">
+                    <h2 className={hideProperty}>Captain {this.props.player.name}</h2>
+                    <ul 
+                    onClick={()=>{this.props.updateOverlayState(1)}}
+                    className={`fleet-status ${hideProperty}`}
+                    >
+                        {
+                            this.props.player.fleet.map((ship)=>{
+                                let imageid = ship.shipClass.fullHealth;
 
-                            if(ship.health <= ship.maxHealth * .6){
-                                imageid = this.props.data.shipClass.sixtyHealth;
-                            }      
-                            if(imageid !== ship.shipClass.fullHealth && ship.health <= ship.maxHealth * .35){
-                                imageid = ship.shipClass.thirtyHealth;
-                            }
-                            return <li key={"player" + ship.uniqueId}><img src={imageid} alt={ship.shipClass.name}></img></li>
-                        })
-                    }
-                </ul>
-                <div className="gold-status">
-                    <p>{this.props.player.money}</p>
-                    <img src="./images/gold.gif" alt="gold-coin"/>
+                                if(ship.health <= ship.maxHealth * .6){
+                                    imageid = this.props.data.shipClass.sixtyHealth;
+                                }      
+                                if(imageid !== ship.shipClass.fullHealth && ship.health <= ship.maxHealth * .35){
+                                    imageid = ship.shipClass.thirtyHealth;
+                                }
+                                return <li key={"player" + ship.uniqueId}><img src={imageid} alt={ship.shipClass.name}></img></li>
+                            })
+                        }
+                    </ul>
+                    <div className="gold-status">
+                        <p>{this.props.player.money}</p>
+                        <img src="./images/gold.gif" alt="gold-coin"/>
+                    </div>
+                    <div 
+                    onClick={()=>{this.props.updateOverlayState(2)}}
+                    className="cargo-status">
+                        <img src="./images/crate.png" alt="cargo-icon"/>
+                        <p>{currentCargo}/{cargoCapacity}</p>
+                    </div>
+                    <button 
+                    className={`save ${hideProperty}`}
+                    onClick={this.props.saveGame}><img src="./images/save.png" alt="save-icon"/></button>
                 </div>
-                <div className="cargo-status">
-                    <img src="./images/crate.png" alt="cargo-icon"/>
-                    <p>{currentCargo}/{cargoCapacity}</p>
-                </div>
-                <button 
-                className={`save ${hideProperty}`}
-                onClick={this.props.saveGame}><img src="./images/save.png" alt="save-icon"/></button>
+                
             </div>
         )
     }

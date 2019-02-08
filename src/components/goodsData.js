@@ -20,9 +20,9 @@ const goods = [
     goodsFactory("Iron",100,20,5,0,'iron'),
     goodsFactory("Medicine",200,10,100,25,'medicine'),
     goodsFactory("Oil",500,20,400,25,'oil'),
-    goodsFactory("Gold",800,20,400,30,'gold'),
-    goodsFactory("Weapons",1000,25,300,50,'weapon'),
-    goodsFactory("Exotic Pets",2500,5,2000,80,'snake'),
+    goodsFactory("Gold",800,10,400,30,'gold'),
+    goodsFactory("Weapons",1000,25,300,50,'weapons'),
+    goodsFactory("Exotic Pets",2500,15,2000,80,'snake'),
 ]
 
 export default goods;
