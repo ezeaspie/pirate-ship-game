@@ -26,8 +26,6 @@ class HUD extends Component {
             return acc + (cargo.quantity * cargo.size);
         },0)
 
-        console.log(currentCargo);
-
         if(this.props.showOnlyGold){
             hideProperty = "hidden-hud"
         }
@@ -36,7 +34,10 @@ class HUD extends Component {
         return(
             <div className="hud">
                 <div className="player-map-info">
-                    <button className="map-icon"><img src="./images/map.png" alt="treasure-map-icon"></img></button>
+                    <button 
+                    className="map-icon"
+                    onClick={()=>{this.props.updateOverlayState(3)}}
+                    ><img src="./images/map.png" alt="treasure-map-icon"></img></button>
                 </div>
                 <div className="player-hud-info">
                     <h2 className={hideProperty}>Captain {this.props.player.name}</h2>

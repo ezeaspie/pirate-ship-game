@@ -61,6 +61,7 @@ class Port extends Component {
         generatedShips={generatedShips}
         updatePlayerState={this.props.updatePlayerState}
         updateGeneratedShips={this.updateGeneratedShips}
+        updateHudState={this.props.updateHudState}
         />})
     }
 
@@ -105,11 +106,19 @@ class Port extends Component {
                 player={this.props.player}
                 updatePlayerState={this.props.updatePlayerState}
                 changeCurrentView={this.changeCurrentView}
+                updateHudState={this.props.updateHudState}
                 />,
                 <div className="current-port-view">
                     <h1>{this.props.port.name}</h1>
-                    <button onClick={()=>{this.changeCurrentView(2)}}>MarketPlace</button>
-                    <button onClick={()=>{this.changeCurrentView(0)}}>Shipyard</button>
+                    <button onClick={()=>{
+                        this.changeCurrentView(2)
+                        this.props.updateHudState(true,true);
+                    }
+                        }>MarketPlace</button>
+                    <button onClick={()=>{
+                        this.changeCurrentView(0)
+                        this.props.updateHudState(true,true);
+                        }}>Shipyard</button>
                     <button onClick={()=>{
                         this.changeCurrentView(1);
                         this.props.updateHudState(true,true);

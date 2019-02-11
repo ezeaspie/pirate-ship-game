@@ -56,6 +56,8 @@ class Good extends Component {
 
     handleInputChange = (e,buyOrSell) =>{
 
+        console.log(e.target.value);
+
         let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
             return acc + (cargo.quantity * cargo.size);
         },0)
@@ -77,6 +79,8 @@ class Good extends Component {
         else{
             let ownedAmount = this.props.player.cargo[this.props.index].quantity;
 
+            console.log(ownedAmount);
+
             if(ownedAmount >= e.target.value){
                 this.setState(buyOrSell?{buyMultiplier:e.target.value}:{sellMultiplier:e.target.value});
             }
@@ -87,8 +91,6 @@ class Good extends Component {
         let good = this.props.good;
         let price = good.currentPrice;
         let ownedAmount = this.props.player.cargo[this.props.index].quantity;
-
-        console.log(this.props.currentCargo);
 
         return(
             <li key={good.name} className="good">
@@ -105,14 +107,14 @@ class Good extends Component {
                             type="number" 
                             onChange={(e)=>{this.handleInputChange(e,true)}}
                             value={this.state.buyMultiplier}/>
-                            <input type="submit" value={`Purchase for ${this.state.buyMultiplier * price}`}/>
+                            <input type="submit" value={`Buy ${this.state.buyMultiplier * price} G`}/>
                         </form>
                         <form className="amount sell"  onSubmit={(e)=>{this.handleSale(e)}}>
                             <input 
                             type="number"
                             onChange={(e)=>{this.handleInputChange(e,false)}} 
                             value={this.state.sellMultiplier}/>
-                            <input type="submit" value={`Sell for ${this.state.sellMultiplier * price}`}/>
+                            <input type="submit" value={`Sell ${this.state.sellMultiplier * price} G`}/>
                             <label>You have: {ownedAmount}</label>
                         </form>
                     </div>

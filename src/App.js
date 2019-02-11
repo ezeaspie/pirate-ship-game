@@ -8,6 +8,7 @@ import CharacterCreation from './components/CharacterCreation';
 import HUD from './components/HUD';
 import goods from './components/goodsData';
 import Overlay from './components/Overlay';
+import portData from './components/portData';
 
 class App extends Component {
   constructor(props){
@@ -93,11 +94,25 @@ class App extends Component {
       }
       cargo.push(item);
     })
+
+    let portStatus = [];
+
+    portData.forEach((port,i)=>{
+      let status = false;
+      if(i === 0){
+        status = true;
+      }
+      let currentPortStatus = {name:port.name, unlocked:status}
+      portStatus.push(currentPortStatus);
+    })
+
+
     let player = {
       name,
       fleet,
       cargo,
-      money
+      money,
+      portStatus,
     }
     this.setState({player},this.saveGame);
   }
@@ -144,6 +159,22 @@ class App extends Component {
   })
   }
 
+  updateCurrentPort = (portId) => {
+    let port = portData[portId];
+    this.setState({currentPort:portId,gameScreen:
+      <div>
+      <Port
+      key={portId}
+      port={port} 
+      startCombat={this.startCombat}
+      updatePlayerState={this.updatePlayerState}
+      player={this.state.player}
+      updateHudState={this.updateHudState}
+    />
+    </div>
+    });
+  }
+
   updateHudState = (showHud,showOnlyGold=false) => {
     this.setState({hudProps:{show:showHud,showOnlyGold}});
   } 
@@ -166,8 +197,10 @@ class App extends Component {
       {
         this.state.player !== undefined?
           <Overlay 
+          startCombat={this.startCombat}
           status={overlayStatus} 
           player={this.state.player}
+          updateCurrentPort={this.updateCurrentPort}
           updateOverlayState={this.updateOverlayState}/>:
           null
       }

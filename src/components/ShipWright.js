@@ -18,7 +18,7 @@ class ShipWright extends Component {
                         return(
                             <div className="ship" key={ship.uniqueId}>
                                 {ship.health !== ship.maxHealth?
-                                    <h2>Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></h2>:
+                                    <button className="buy-button">Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></button>:
                                     null
                                 }
                                 <UpgradeShip 
@@ -32,10 +32,14 @@ class ShipWright extends Component {
                         )
                     })
                 }
-            <button onClick={()=>{
+            <button 
+            className="back"
+            onClick={()=>{
                 this.props.changeCurrentView(3);
                 this.props.updateHudState(true,false);
-                }}>Back</button>
+                }}>
+                <img src="./images/arrowLeft.png" alt="back-arrow"/>
+                Back</button>
             </div>
         )
     }

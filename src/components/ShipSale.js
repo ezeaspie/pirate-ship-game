@@ -28,9 +28,10 @@ class ShipSale extends Component {
             <div 
             className={this.state.unavaliable?"ship-sale unavaliable":"ship-sale"}
             key={ship.uniqueId}
-            onClick={this.state.unavaliable?null:()=>{this.handlePurchase(ship)}}
             >
-                <h2>{ship.price}<img src="./images/gold.gif" alt="gold-coin"/></h2>
+                <button 
+                onClick={this.state.unavaliable?null:()=>{this.handlePurchase(ship)}}
+                className="buy-button">{ship.price}<img src="./images/gold.gif" alt="gold-coin"/></button>
                 <h3>{ship.name}</h3>
                 <h3>{ship.shipClass.name}</h3>
                 <img src={ship.shipClass.fullHealth} alt={ship.shipClass.name}></img>

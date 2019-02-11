@@ -35,7 +35,14 @@ class Marketplace extends Component {
                         })
                     }
                 </ul>
-                <button onClick={()=>{this.props.changeCurrentView(3)}}>Back</button>
+                <button 
+                className="back"
+                onClick={()=>{
+                    this.props.changeCurrentView(3)
+                    this.props.updateHudState(true,false);
+                    }}>
+                    <img src="./images/arrowLeft.png" alt="back-arrow"/>
+                    Back</button>
 
             </div>
         )

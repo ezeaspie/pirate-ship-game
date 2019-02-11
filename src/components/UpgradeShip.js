@@ -130,10 +130,10 @@ class UpgradeShip extends Component{
             <div className="next-upgrade">
                 <h4>Next Upgrade: {selectedUpgrade.next.name}</h4>
                 <h5>{` +${selectedUpgrade.next.bonus} ${selectedUpgrade.stat}`}</h5>
-                <h5 
-                className="purchase-button"
+                <button 
+                className="buy-button"
                 onClick={()=>{this.handleUpgradePurchase(this.state.currentData,selectedUpgrade)}}
-                >{` ${selectedUpgrade.next.price}`}<img src="./images/gold.gif" alt="gold-coin"/></h5>
+                >{` ${selectedUpgrade.next.price}`}<img src="./images/gold.gif" alt="gold-coin"/></button>
             </div>
         }
 
@@ -187,9 +187,9 @@ class UpgradeShip extends Component{
                                                 <h5>{cannonForSale.name}</h5>
                                                 <h5>{cannonForSale.damage} DMG</h5>
                                                 <h5>{cannonForSale.durability} DUR</h5>
-                                                <h5 
-                                                    className="purchase-button"
-                                                >{` ${cannonForSale.price}`}<img src="./images/gold.gif" alt="gold-coin"/></h5>
+                                                <button
+                                                    className="buy-button"
+                                                >{` ${cannonForSale.price}`}<img src="./images/gold.gif" alt="gold-coin"/></button>
                                             </button>
                                         )
                                     })
@@ -197,10 +197,10 @@ class UpgradeShip extends Component{
                             </div>
                         }
                         <ul className="upgrade-selector">
-                            <li><button onClick={()=>{this.handleDataSwitch(0)}}>Hull</button></li>
-                            <li><button onClick={()=>{this.handleDataSwitch(1)}}>Sails</button></li>
-                            <li><button onClick={()=>{this.handleDataSwitch(2)}}>Cargo</button></li>
-                            <li><button onClick={()=>{this.handleDataSwitch(3)}}>Cannons</button></li>
+                            <li><button className="buy-button blue" onClick={()=>{this.handleDataSwitch(0)}}>Hull</button></li>
+                            <li><button className="buy-button blue" onClick={()=>{this.handleDataSwitch(1)}}>Sails</button></li>
+                            <li><button className="buy-button blue" onClick={()=>{this.handleDataSwitch(2)}}>Cargo</button></li>
+                            <li><button className="buy-button blue" onClick={()=>{this.handleDataSwitch(3)}}>Cannons</button></li>
 
                         </ul>
                     </div>

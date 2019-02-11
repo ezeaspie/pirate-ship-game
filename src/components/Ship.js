@@ -1,4 +1,5 @@
 import React , { Component } from 'react';
+import upgradeData from './upgradeData';
 
 class Ship extends Component {
     constructor(props){
@@ -40,6 +41,9 @@ class Ship extends Component {
                     <div>
                         <h5>{this.props.data.speed} Speed</h5>
                         <h5>{this.props.data.capacity} Cargo Capacity</h5>
+                        <h5>{upgradeData[0][this.props.data.hull].name}</h5>
+                        <h5>{upgradeData[1][this.props.data.sails].name}</h5>
+                        <h5>{upgradeData[2][this.props.data.cargoBay].name}</h5>
                     </div>
                     :null
                 }

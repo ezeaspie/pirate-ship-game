@@ -3,205 +3,6 @@ html {
           animation: moveBackground ease-in-out 100s infinite;
 }
 
-@-webkit-keyframes moveBackground {
-  0%{
-    background-position: 0,0;
-  }
-  50%{
-    background-position: 20em,20em;
-  }
-  100%{
-    background-position: 0,0;
-  }
-}
-
-@keyframes moveBackground {
-  0%{
-    background-position: 0,0;
-  }
-  50%{
-    background-position: 20em,20em;
-  }
-  100%{
-    background-position: 0,0;
-  }
-}
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  -webkit-animation: App-logo-spin infinite 20s linear;
-          animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-.fleet{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 1em;
-}
-
-.fleet:first-of-type{
-  margin-bottom: 5em;
-}
-
-.clickable:hover{
-  cursor: pointer;
-}
-
-.combat-cannons {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.combat-ship-image-container img {
-
-  -webkit-animation: ship-bob ease 6s infinite;
-
-          animation: ship-bob ease 6s infinite;
-  -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-          filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5));
-}
-
-.active-ship .ship-image{
-            -webkit-filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px  #FFA500);
-                    filter: drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 15px  #FFA500);
-}
-
-@-webkit-keyframes ship-bob {
-  0%{
-    -webkit-transform: translate(0px, 0px) rotate(90deg);
-            transform: translate(0px, 0px) rotate(90deg);
-  }
-  50%{
-    -webkit-transform: translate(0px, 15px) rotate(90deg);
-            transform: translate(0px, 15px) rotate(90deg);
-    
-  }
-  100%{
-    -webkit-transform: translate(0px, 0px) rotate(90deg);
-            transform: translate(0px, 0px) rotate(90deg);
-  }
-}
-
-@keyframes ship-bob {
-  0%{
-    -webkit-transform: translate(0px, 0px) rotate(90deg);
-            transform: translate(0px, 0px) rotate(90deg);
-  }
-  50%{
-    -webkit-transform: translate(0px, 15px) rotate(90deg);
-            transform: translate(0px, 15px) rotate(90deg);
-    
-  }
-  100%{
-    -webkit-transform: translate(0px, 0px) rotate(90deg);
-            transform: translate(0px, 0px) rotate(90deg);
-  }
-}
-
-@-webkit-keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-.shipwright .ship>div{
-  display: flex;
-  justify-content: space-evenly
-}
-
-.shipwright .ship-upgrade{
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-}
-
-.ship-upgrade .current,
-.ship-upgrade .next-upgrade{
-
-  display: flex;
-  flex-direction: column;
-}
-
-.ship-upgrade h4,
-.ship-upgrade h5{
-  margin: .3em 0;
-}
-
-.purchase-button{
-  box-sizing: border-box;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  border:solid 1px royalblue;
-  width: 100%;
-  padding: .5em;
-}
-
-.purchase-button:hover{
-  cursor: pointer;
-}
-
-.purchase-button img{
-  width:1.5em;
-  margin-left:.5em;
-}
-
-.hud{
-  position: fixed;
-  bottom:5%;
-  left: 0;
-  z-index: -9;
-  display: flex;
-  border:solid 1px;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
-}
-
-.hud h2 {
-  align-self: end;
-  padding: 0 1em;
-}
 
 .map-icon{
   background: 0;
@@ -211,89 +12,50 @@ html {
 
 .map-icon:hover{
   cursor: pointer;
-  animation: vibrate ease-in-out .2s;
+  -webkit-animation: vibrate ease-in-out .2s;
+          animation: vibrate ease-in-out .2s;
+}
+
+@-webkit-keyframes vibrate{
+  0%{
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  25%{
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg);
+  }
+  75%{
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg);
+  }
+   100%{
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
 }
 
 @keyframes vibrate{
   0%{
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   25%{
-    transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg);
   }
   75%{
-    transform: rotate(-5deg);
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg);
   }
    100%{
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
 }
+
 .map-icon img{
   width: 100%;
-}
-
-.fleet-status{
-  width: 30%;
-  align-self: end;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.fleet-status li {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  width: 30%;
-}
-
-.fleet-status img{
-  max-width: 40px;
-}
-
-.gold-status {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: right;
-  padding: 0 1em;
-}
-
-.gold-status p {
-  font-weight: bold;
-  padding: 0 1em;
-}
-
-.save {
-  background: none;
-  width: 8%;
-  align-self: end;
-  transition:ease .5s opacity;
-  border: none;
-  z-index: 999;
-}
-
-.save img{
-  width: 100%;
-}
-
-.save:hover{
-  cursor: pointer;
-  opacity: .7;
-  transition:ease .5s opacity;
-}
-
-.unavaliable {
-  opacity: .5;
-}
-
-html {
-  -webkit-animation: moveBackground ease-in-out 100s infinite;
-          animation: moveBackground ease-in-out 100s infinite;
 }
 
 @-webkit-keyframes moveBackground {
@@ -322,27 +84,6 @@ html {
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  -webkit-animation: App-logo-spin infinite 20s linear;
-          animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 .fleet{
@@ -414,27 +155,6 @@ html {
   }
 }
 
-@-webkit-keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
 .shipwright .ship>div{
   display: flex;
   justify-content: space-evenly
@@ -486,17 +206,20 @@ html {
   right:0;
   z-index: -9;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  padding: 0 2em;
 }
 
-.hud h2 {
-  align-self: end;
-  padding: 0 1em;
-  
+.hud h2{
+  font-size:1em;
+  margin: 0;
+  padding: .5em;
 }
 
 .fleet-status{
-  width: 30%;
+  width: 100%;
   align-self: end;
   list-style-type: none;
   margin: 0;
@@ -514,11 +237,20 @@ html {
   width: 30%;
 }
 
+.fleet-status:hover > li{
+  -webkit-animation: vibrate ease-in-out .2s;
+          animation: vibrate ease-in-out .2s;
+}
+
+.fleet-status:hover{
+  cursor: pointer;
+}
 .fleet-status img{
   max-width: 40px;
 }
 
-.gold-status {
+.gold-status,
+.cargo-status {
   display: flex;
   align-content: center;
   align-items: center;
@@ -526,28 +258,39 @@ html {
   padding: 0 1em;
 }
 
-.gold-status p {
+.cargo-status {
+  flex-direction: row-reverse;
+}
+
+.cargo-status img {
+  max-width: 35px;
+}
+
+.cargo-status:hover > img{
+    -webkit-animation: vibrate ease-in-out .2s;
+            animation: vibrate ease-in-out .2s;
+  cursor: pointer;
+}
+
+.gold-status p,
+.cargo-status p{
   font-weight: bold;
   padding: 0 1em;
 }
 
-.save {
-  background: none;
-  width: 8%;
-  align-self: end;
-  transition:ease .5s opacity;
+.save{
+  display: flex;
+  flex-direction: row-reverse;
   border: none;
-  z-index: 999;
+  background: none;
 }
 
-.save img{
-  width: 100%;
-}
-
-.save:hover{
+.save img:hover{
   cursor: pointer;
   opacity: .7;
   transition:ease .5s opacity;
+  -webkit-animation: vibrate ease-in-out .2s;
+          animation: vibrate ease-in-out .2s;
 }
 
 .unavaliable {
@@ -570,6 +313,63 @@ html {
   justify-content: center;
 }
 
+.marketplace .goods-list{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.marketplace input[type="number"]{
+  width: 20%;
+  border: none;
+  background: #ebd5b3;  
+  padding: .5em;
+  text-align: center;
+}
+
+.marketplace .good{
+  padding: 0;
+}
+
+.marketplace form{
+  box-sizing: border-box;
+}
+
+.marketplace .goods-list label{
+  display: block;
+  width: 100%;
+}
+
+.buy input[type="submit"]{
+  background: #93c572;
+}
+
+input[type="submit"]{
+  width:50%;
+  border: none;
+  padding: .5em;
+  opacity: .8;
+  transition:ease .4s opacity;
+}
+
+input[type="submit"]:hover{
+  cursor: pointer;
+  opacity: 1;
+  transition:ease .4s opacity;
+}
+
+.sell input[type="submit"]{
+  background: #f15b5b;
+}
+
+.good{
+  padding: 0 1em;
+}
+
+.player-hud-info {
+  display: flex;
+  flex-direction: column;
+}
+
 .good img {
   width:36px;
   height: 36px;
@@ -578,9 +378,12 @@ html {
 .overlay{
   position: fixed;
   display: flex;
+  flex-direction: column;
   background: #ebd5b3;
   top:-100%;
   bottom:100%;
+  left:0;
+  right:0;
   transition:ease-in-out .4s all;
   align-content: center;
   align-items: center;
@@ -598,4 +401,77 @@ html {
 .overlay .main {
   display: flex;
   flex-wrap: wrap;
+}
+
+.map-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.map-list li {
+  padding: 1em;
+}
+
+.map-list li:hover{
+  cursor: pointer;
+  -webkit-animation: vibrate ease-in-out .2s;
+          animation: vibrate ease-in-out .2s;
+}
+
+.back img{
+  display: block;
+  width: 100%;
+}
+
+.back{
+  box-sizing: border-box;
+  background: #ebd5b3;
+  border: solid 2px #be914a;
+  opacity: .8;
+  transition:ease .4s opacity;
+}
+
+.back:hover{
+  cursor: pointer;
+  opacity: 1;
+  transition:ease .4s opacity;
+}
+
+.buy-button{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background: #93c572;
+  border: none;
+  padding: .2em;
+  opacity: .8;
+  transition:ease .4s opacity;
+}
+
+.buy-button:hover{
+  opacity: 1;
+  cursor: pointer;
+  transition:ease .4s opacity;
+}
+
+.buy-button img{
+  max-width: 2em;
+  margin-left: .5em
+}
+
+.upgrade-selector {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.upgrade-selector li button{
+  width: 100%;
+  padding: .5em;
+}
+
+.blue{
+    background: #4169e1;
 }
