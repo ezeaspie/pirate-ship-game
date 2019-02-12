@@ -6,7 +6,7 @@ let generateRandomWithRange = (maximum,minimum) => {
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 }
 
-const shipFactory = (name,shipClass) => {
+const shipFactory = (name,shipClass,config={allowConfig:true}) => {
     let uniqueId = Date.now() + Math.random()
     let typeFactory = (name, imageIds) => {
         let fullHealth = `./images/ship (${imageIds[0]}).png`;
@@ -86,6 +86,24 @@ const shipFactory = (name,shipClass) => {
 
     for(let i = 0 ; i<numberOfEquippedCannons; i++){
         cannons.push(cannonFactory(0));
+    }
+
+    if(config.allowConfig){
+        let object = {
+            name : name !== undefined?name:nameFactory(),
+            shipClass:config.shipClass,
+            health:config.health,
+            maxHealth:config.maxHealth,
+            speed:config.speed,
+            maxCannons,
+            uniqueId, 
+            cannons:config.cannons,
+            capacity: config.capacity,
+            price:calculatedPrice,
+            hull:config.hull,
+            sails:config.sails,
+            cargoBay:config.cargoBay,
+        }
     }
 
     return {

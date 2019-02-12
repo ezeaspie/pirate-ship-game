@@ -59,6 +59,11 @@ class App extends Component {
       if(newPlayerObject.fleet.length > 5){
         throw new Error("Player cannot have more than 6 ships in her fleet");
       }
+      newPlayerObject.fleet.forEach((ship)=>{
+        if(ship.id !== undefined || ship.isPlayer !== undefined || ship.isActive !== undefined){
+          throw new Error("Object contains a combat specific property. This means you forgot to remove these properties when the player exited Combat. This can potentially cause issues later on in non combat situations. Check the Combat.js file's rebuildShipObject property to make sure all extra properties are deleted before running this update function.")
+        }
+      })
     }
     catch(err) {
       console.log(err);
@@ -117,7 +122,29 @@ class App extends Component {
     this.setState({player},this.saveGame);
   }
 
-  createOpponentObject = (name,fleet) => {
+  createOpponent = (name,difficulty) => {
+    let fleetGenerator = (shipTypeArray)=> {
+      let fleet = [];
+      shipTypeArray.forEach((ship)=>{
+        fleet.push(shipFactory(undefined,ship))
+      })
+      return fleet;
+    }
+    const difficultyTiers = [
+      [
+        fleetGenerator([0,0]),
+        [shipFactory("Lincoln Loud",0)],
+        [shipFactory(undefined,1)],
+        fleetGenerator([0,1]),
+        fleetGenerator([1,1,0]),
+        fleetGenerator([2]),
+        fleetGenerator([0,0,0]),
+      ],
+    ]
+
+    let fleet = difficultyTiers[difficulty][Math.floor(Math.random() * difficultyTiers[difficulty].length)];
+
+    
     return {name,fleet}
   }
 
@@ -179,14 +206,20 @@ class App extends Component {
     this.setState({hudProps:{show:showHud,showOnlyGold}});
   } 
 
-  startCombat = (opponent=undefined) => {
+  startCombat = (opponent=undefined,currentPort,nextPort) => {
     let object = opponent;
     if(opponent===undefined){
-      object = this.createOpponentObject("Fatman",[shipFactory("SS Anne",0,100,28,121),shipFactory("Purity",1,200,10,9000)])
+      object = this.createOpponent("Fatman",0);
     }
-    console.log({opponent: object,player:this.state.player});
+
+    this.updateHudState(false);
     
-    this.setState({gameScreen:<Combat opponent={object} player={this.state.player}/>})
+    this.setState({gameScreen:<Combat 
+      opponent={object} 
+      player={this.state.player}
+      currentPort={currentPort}
+      nextPort={nextPort}
+      />})
   }
 
   render() {
@@ -196,11 +229,13 @@ class App extends Component {
       <div className="App">
       {
         this.state.player !== undefined?
-          <Overlay 
+          <Overlay
+          createOpponent={this.createOpponent} 
           startCombat={this.startCombat}
           status={overlayStatus} 
           player={this.state.player}
           updateCurrentPort={this.updateCurrentPort}
+          currentPort={this.state.currentPort}
           updateOverlayState={this.updateOverlayState}/>:
           null
       }

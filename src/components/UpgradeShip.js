@@ -23,12 +23,16 @@ class UpgradeShip extends Component{
                 if(playerShip.uniqueId === ship.uniqueId){
                     if(whichUpgrade === 0){
                         playerShip.hull += 1;
+                        playerShip.health += upgradeData.next.bonus;
+                        playerShip.maxHealth += upgradeData.next.bonus;
                     }
                     if(whichUpgrade === 1){
                         playerShip.sails += 1;
+                        playerShip.speed += upgradeData.next.bonus;
                     }
                     if(whichUpgrade === 2){
                         playerShip.cargoBay += 1;
+                        playerShip.capacity += upgradeData.next.bonus;
                     }
                 }
             })

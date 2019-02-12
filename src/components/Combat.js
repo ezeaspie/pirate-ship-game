@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
 import Fleet from './Fleet';
+import upgradeData from './upgradeData';
 import shipFactory from './ShipFactory';
 
 
@@ -21,7 +22,19 @@ class Combat extends Component {
 
     componentDidMount(){
         let combinedFleets = this.calculateAttackOrder();
-        this.setState({attackOrder:combinedFleets},this.handlePreAttack);
+        this.setState({attackOrder:combinedFleets},()=>{
+            setTimeout(this.handlePreAttack,1500);
+        });
+    }
+
+    rebuildShipObject = () =>{
+        let rebuiltFleet = [];
+        this.state.playerFleet.forEach((ship)=>{
+            delete ship.isActive;
+            delete ship.isPlayer;
+            delete ship.id;
+            console.log(ship);
+        })
     }
 
     calculateAttackOrder = () =>{
