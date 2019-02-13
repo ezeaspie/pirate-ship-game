@@ -1,8 +1,5 @@
 import React , { Component } from 'react';
 import Fleet from './Fleet';
-import upgradeData from './upgradeData';
-import shipFactory from './ShipFactory';
-
 
 //Remember to 'reset' the shipObject to remove the Combat only ship object properties
 //once the battle ends.
@@ -15,26 +12,43 @@ class Combat extends Component {
             playerFleet:this.props.player.fleet,
             attackOrder:undefined,
             currentAttackerId:0,
-            isPlayersTurn:true,
+            isPlayersTurn:false,
+            prizeMoney: undefined,
         }
         this.handleAttack = this.handleAttack.bind(this);
     }
 
     componentDidMount(){
+        try{
+            if(this.props.nextPort === undefined || this.props.currentPort === undefined){
+                throw new Error("<Combat /> is missing a 'nextPort' or 'currentPort' property. This will cause issues when either player's fleet is defeated or you try to retreat. Check the 'startCombat' function parameters used to intiate this combat sequence.")
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
         let combinedFleets = this.calculateAttackOrder();
-        this.setState({attackOrder:combinedFleets},()=>{
+        let prizeMoney = this.state.opponentFleet.reduce((acc,cur)=>{
+            return acc + cur.price;
+        },0)
+        prizeMoney = Math.floor(prizeMoney * .75);
+        this.setState({attackOrder:combinedFleets, prizeMoney},()=>{
             setTimeout(this.handlePreAttack,1500);
         });
     }
 
     rebuildShipObject = () =>{
+    //Removes extra properties from the player's fleet that are only used in Combat.
         let rebuiltFleet = [];
         this.state.playerFleet.forEach((ship)=>{
             delete ship.isActive;
             delete ship.isPlayer;
             delete ship.id;
+            rebuiltFleet.push(ship);
             console.log(ship);
         })
+
+        return rebuiltFleet
     }
 
     calculateAttackOrder = () =>{
@@ -59,14 +73,11 @@ class Combat extends Component {
 
         combinedFleets.sort((a, b) => parseFloat(b.speed) - parseFloat(a.speed));
 
-        console.log(combinedFleets);
         return combinedFleets;
     }
 
     handlePreAttack = () => {
-        //Will check if player's turn and show attack options. 
-        //Fire all cannons or fire individually?
-        //Check if an opponent ship. If so, delay, then choose attacks and execute.
+        //Will check if player or opponent's turn and act accordingly.
         let attackOrder = this.state.attackOrder;
         let currentAttackerId = this.state.currentAttackerId;
         let isPlayersTurn = this.state.attackOrder[currentAttackerId].isPlayer;
@@ -85,13 +96,13 @@ class Combat extends Component {
         this.setState({attackOrder,isPlayersTurn},
             ()=>{
                 if(!this.state.isPlayersTurn){
-                    console.log("AI's TURN");
                     setTimeout(this.handleAIAttack,1000);
                 }
             });
     }
 
     handleAIAttack = () =>{
+        //Logic for AI attack (Check if can kill a ship, if not, target randomly)
         let possibleTargets = this.state.playerFleet;
         let attackingShip = this.state.attackOrder[this.state.currentAttackerId];
         let selectedTarget = undefined;
@@ -110,6 +121,7 @@ class Combat extends Component {
         }
         this.handleAttack(selectedTarget,false);
     }
+
     handleShipSinking = (sunkenShip,isPlayer) =>{
         //isPlayer in this context gives us the attacker, making the target fleets opposite of the IsPlayer value.
         let targetFleet = this.state.opponentFleet;
@@ -210,17 +222,23 @@ class Combat extends Component {
     }
 
     handleEndOfTurn = (isPlayer) => {
+        //Used to manage events after someone attacks.
         let activeFleet = undefined;
+        let opponentFleet = undefined;
 
         let attackOrder = this.calculateAttackOrder();
         if(isPlayer){
             activeFleet = this.state.playerFleet;
+            opponentFleet = this.state.opponentFleet;
         }
         else{
             activeFleet = this.state.opponentFleet;
+            opponentFleet = this.state.playerFleet;
         }
-        if(activeFleet.length === 0){
-            //handle opponent/player death accordingly.
+        //Check for death
+        console.log({isPlayer,length:opponentFleet.length});
+        if(opponentFleet.length === 0){
+            this.handleDeath(!isPlayer);
         }
         else{
             let length = attackOrder.length;
@@ -231,8 +249,33 @@ class Combat extends Component {
                 this.setState({currentAttackerId:this.state.currentAttackerId+1},this.handlePreAttack);
             }
         }
-        //Run PreTurn.
-        //Allow for attacks.
+    }
+
+    handleDeath = (isPlayer) => {
+        if(isPlayer){
+            console.log("Player died.");
+        }
+        else{
+            console.log("Opponent died.");
+            let playerFleet = this.rebuildShipObject();
+            let player = this.props.player;
+            player.money += Number(this.state.prizeMoney);
+            player.fleet = playerFleet;
+
+            this.props.updatePlayerState(player);
+            this.props.updateCurrentPort(this.props.nextPort);
+            this.props.updateHudState(true);
+        }
+    }
+
+    handleFlee = () => {
+            let playerFleet = this.rebuildShipObject();
+            let player = this.props.player;
+            player.fleet = playerFleet;
+
+            this.props.updatePlayerState(player);
+            this.props.updateCurrentPort(this.props.currentPort);
+            this.props.updateHudState(true);
     }
 
     render(){
@@ -250,6 +293,14 @@ class Combat extends Component {
                     handleAttack={this.handleAttack}
                     isPlayer={true}
                 />
+                <div className="hud">
+                    <button 
+                    disabled={!this.state.isPlayersTurn}
+                    onClick={this.handleFlee}
+                    >
+                        FLEE
+                    </button>
+                </div>
             </div>
         )
     }

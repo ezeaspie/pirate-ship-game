@@ -124,7 +124,7 @@ class Port extends Component {
                         this.props.updateHudState(true,true);
                         }}>ShipWright</button>
                     <button>Warehouse</button>
-                    <button onClick = {()=>{this.props.startCombat()}}>Head to Next Port</button>
+                    <button onClick = {()=>{this.props.startCombat(undefined,0,1)}}>Head to Next Port</button>
                 </div>
             ]
     

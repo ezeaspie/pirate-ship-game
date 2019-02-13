@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       player: undefined,
       currentPort:0,
-      hudProps:{show:false,showOnlyGold:false},
+      hudProps:{show:false,showOnlyGoldAndCargo:false},
       gameScreen:<MainMenu 
       showCC={this.showCharacterCreation} 
       startCombat={this.startCombat}
@@ -33,6 +33,7 @@ class App extends Component {
       console.log("SAVE FOUND");
       this.loadGame();
     }
+    //Used to ensure that there is a bit of data to use before starting.
     setTimeout(()=>{
       this.setState({gameScreen:
         <MainMenu 
@@ -48,6 +49,7 @@ class App extends Component {
   }
 
   updatePlayerState = (newPlayerObject) => {
+    //Since player object is used often, small checks must be run to prevent issues
     try {
       if(newPlayerObject.name === undefined){
         throw new Error("Object must contain a name");
@@ -70,7 +72,6 @@ class App extends Component {
     }
 
     this.setState({player:newPlayerObject});
-
   }
 
   loadGame = () => {
@@ -123,6 +124,7 @@ class App extends Component {
   }
 
   createOpponent = (name,difficulty) => {
+
     let fleetGenerator = (shipTypeArray)=> {
       let fleet = [];
       shipTypeArray.forEach((ship)=>{
@@ -130,6 +132,7 @@ class App extends Component {
       })
       return fleet;
     }
+    //Difficulty determines the types of fleets an opponent will face.
     const difficultyTiers = [
       [
         fleetGenerator([0,0]),
@@ -173,6 +176,7 @@ class App extends Component {
   }
 
   showPort = (portData) => {
+    //Used when portData object is known and the ID's aren't
   this.setState({gameScreen:
     <div>
       <Port
@@ -187,6 +191,7 @@ class App extends Component {
   }
 
   updateCurrentPort = (portId) => {
+    //Used when ID's of new port is known.
     let port = portData[portId];
     this.setState({currentPort:portId,gameScreen:
       <div>
@@ -202,8 +207,8 @@ class App extends Component {
     });
   }
 
-  updateHudState = (showHud,showOnlyGold=false) => {
-    this.setState({hudProps:{show:showHud,showOnlyGold}});
+  updateHudState = (showHud,showOnlyGoldAndCargo=false) => {
+    this.setState({hudProps:{show:showHud,showOnlyGoldAndCargo}});
   } 
 
   startCombat = (opponent=undefined,currentPort,nextPort) => {
@@ -219,6 +224,9 @@ class App extends Component {
       player={this.state.player}
       currentPort={currentPort}
       nextPort={nextPort}
+      updatePlayerState={this.updatePlayerState}
+      updateCurrentPort={this.updateCurrentPort}
+      updateHudState={this.updateHudState}
       />})
   }
 
@@ -243,7 +251,7 @@ class App extends Component {
         {
           showHud?
           <HUD 
-            showOnlyGold={this.state.hudProps.showOnlyGold}
+            showOnlyGoldAndCargo={this.state.hudProps.showOnlyGoldAndCargo}
             player={this.state.player}
             updatePlayerState={this.updatePlayerState}
             saveGame={this.saveGame}
