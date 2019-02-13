@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Combat from './components/Combat';
 import MainMenu from './components/MainMenu';
-import shipFactory from './components/ShipFactory';
 import Port from './components/Port';
 import './App.css';
 import CharacterCreation from './components/CharacterCreation';
@@ -9,6 +8,7 @@ import HUD from './components/HUD';
 import goods from './components/goodsData';
 import Overlay from './components/Overlay';
 import portData from './components/portData';
+import difficultyTiers from './components/difficultyTiers';
 
 class App extends Component {
   constructor(props){
@@ -124,29 +124,8 @@ class App extends Component {
   }
 
   createOpponent = (name,difficulty) => {
-
-    let fleetGenerator = (shipTypeArray)=> {
-      let fleet = [];
-      shipTypeArray.forEach((ship)=>{
-        fleet.push(shipFactory(undefined,ship))
-      })
-      return fleet;
-    }
     //Difficulty determines the types of fleets an opponent will face.
-    const difficultyTiers = [
-      [
-        fleetGenerator([0,0]),
-        [shipFactory("Lincoln Loud",0)],
-        [shipFactory(undefined,1)],
-        fleetGenerator([0,1]),
-        fleetGenerator([1,1,0]),
-        fleetGenerator([2]),
-        fleetGenerator([0,0,0]),
-      ],
-    ]
-
     let fleet = difficultyTiers[difficulty][Math.floor(Math.random() * difficultyTiers[difficulty].length)];
-
     
     return {name,fleet}
   }
@@ -211,7 +190,7 @@ class App extends Component {
     this.setState({hudProps:{show:showHud,showOnlyGoldAndCargo}});
   } 
 
-  startCombat = (opponent=undefined,currentPort,nextPort) => {
+  startCombat = (opponent,currentPort,nextPort, fleetBattle={enabled:false}) => {
     let object = opponent;
     if(opponent===undefined){
       object = this.createOpponent("Fatman",0);

@@ -223,16 +223,13 @@ class Combat extends Component {
 
     handleEndOfTurn = (isPlayer) => {
         //Used to manage events after someone attacks.
-        let activeFleet = undefined;
         let opponentFleet = undefined;
 
         let attackOrder = this.calculateAttackOrder();
         if(isPlayer){
-            activeFleet = this.state.playerFleet;
             opponentFleet = this.state.opponentFleet;
         }
         else{
-            activeFleet = this.state.opponentFleet;
             opponentFleet = this.state.playerFleet;
         }
         //Check for death

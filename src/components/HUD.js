@@ -50,7 +50,7 @@ class HUD extends Component {
                                 let imageid = ship.shipClass.fullHealth;
 
                                 if(ship.health <= ship.maxHealth * .6){
-                                    imageid = this.props.data.shipClass.sixtyHealth;
+                                    imageid = ship.shipClass.sixtyHealth;
                                 }      
                                 if(imageid !== ship.shipClass.fullHealth && ship.health <= ship.maxHealth * .35){
                                     imageid = ship.shipClass.thirtyHealth;
