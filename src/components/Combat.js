@@ -8,12 +8,13 @@ class Combat extends Component {
     constructor(props){
         super(props);
         this.state = {
-            opponentFleet:this.props.opponent.fleet,
+            opponentFleet:this.props.armadaData.enabled?this.props.armadaData.armada[0]:this.props.opponent.fleet,
             playerFleet:this.props.player.fleet,
             attackOrder:undefined,
             currentAttackerId:0,
             isPlayersTurn:false,
             prizeMoney: undefined,
+            currentBattle:0,
         }
         this.handleAttack = this.handleAttack.bind(this);
     }
@@ -23,9 +24,18 @@ class Combat extends Component {
             if(this.props.nextPort === undefined || this.props.currentPort === undefined){
                 throw new Error("<Combat /> is missing a 'nextPort' or 'currentPort' property. This will cause issues when either player's fleet is defeated or you try to retreat. Check the 'startCombat' function parameters used to intiate this combat sequence.")
             }
+            if(this.props.armadaData.enabled === undefined){
+                throw new Error("armadaData prop is missing enabled property. Check the structure of the object and ensure the value is a boolean");
+            }
         }
         catch(err){
             console.log(err);
+        }
+
+        if(this.props.armadaData.enabled){
+            this.setState({opponentFleet:this.props.armadaData.armada[0]});
+            console.log("FIGTING AN ARMADA");
+            console.log(this.state.currentBattle, this.props.armadaData.numberOfBattles-1);
         }
         let combinedFleets = this.calculateAttackOrder();
         let prizeMoney = this.state.opponentFleet.reduce((acc,cur)=>{
@@ -260,8 +270,45 @@ class Combat extends Component {
             player.fleet = playerFleet;
 
             this.props.updatePlayerState(player);
-            this.props.updateCurrentPort(this.props.nextPort);
-            this.props.updateHudState(true);
+            if(this.props.armadaData.enabled){
+                console.log({currentBattleplusOne:this.state.currentBattle + 1, max:this.props.armadaData.numberOfBattles});
+                if(this.state.currentBattle +1 > this.props.armadaData.numberOfBattles-1){
+                    console.log("END BATTLES");
+                    this.props.updateCurrentPort(this.props.nextPort);
+                    this.props.updateHudState(true);
+                }
+                else{
+
+                    /*let opponent = {
+                        name:"Steven Universe",
+                        fleet:this.props.armadaData.armada[this.state.currentAttackerId+1],
+                    }
+                    this.props.startCombat(opponent,this.props.currentPort,this.props.nextPort,this.props.armadaData);
+                    */
+                    this.setState({currentBattle:this.state.currentBattle+1},()=>{
+
+                        this.setState({opponentFleet:this.props.armadaData.armada[this.state.currentBattle]},()=>{
+                            let combinedFleets = this.calculateAttackOrder();
+                            console.log(combinedFleets);
+                            let prizeMoney = this.state.opponentFleet.reduce((acc,cur)=>{
+                                return acc + cur.price;
+                            },0)
+                            prizeMoney = Math.floor(prizeMoney * .75);
+                            this.setState({attackOrder:combinedFleets, prizeMoney},()=>{
+                                setTimeout(this.handlePreAttack,1500);
+                            });    
+                        });
+                    }    
+                    )
+                }
+                //check for next armada fight.
+                //send to next port if final battle
+                //else, show next fleet.
+            }
+            else{
+                this.props.updateCurrentPort(this.props.nextPort);
+                this.props.updateHudState(true);
+            }
         }
     }
 

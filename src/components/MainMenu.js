@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import portData from './portData';
 
 class MainMenu extends Component {
     render(){
@@ -11,7 +10,7 @@ class MainMenu extends Component {
                     onClick={()=>{
                         if(this.props.playerData!==undefined){
                             this.props.updateHudState(true);
-                            this.props.showPort(portData[this.props.currentPort]);
+                            this.props.updateCurrentPort(this.props.currentPort);
                             return;
                         }
                         return;

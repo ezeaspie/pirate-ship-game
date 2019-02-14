@@ -3,9 +3,6 @@ import shipFactory from './ShipFactory';
 import nameFactory from './NameFactory';
 import Ship from './Ship';
 
-import portData from './portData';
-
-
 class CharacterCreation extends Component {
     constructor(props){
         super(props);
@@ -30,7 +27,7 @@ class CharacterCreation extends Component {
         }
 
         this.props.createPlayerObject(this.state.nameValue,[this.state.selectedShipData]);
-        this.props.showPort(portData[0]);
+        this.props.updateCurrentPort(0);
         this.props.updateHudState(true);
     }
 

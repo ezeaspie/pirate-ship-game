@@ -19,8 +19,9 @@ let armadaFactory = (armadaDifficultyArray) => {
         armada.push(fleet);
     })
     console.log(armada);
+    let numberOfBattles = armada.length;
 
-    return {enabled:true,armada}
+    return {enabled:true,armada,numberOfBattles}
 }
 
 

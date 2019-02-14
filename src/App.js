@@ -34,18 +34,7 @@ class App extends Component {
       this.loadGame();
     }
     //Used to ensure that there is a bit of data to use before starting.
-    setTimeout(()=>{
-      this.setState({gameScreen:
-        <MainMenu 
-        showCC={this.showCharacterCreation} 
-        startCombat={this.startCombat}
-        playerData={this.state.player}
-        showPort={this.showPort}
-        currentPort={this.state.currentPort}
-        updateHudState={this.updateHudState}
-        />
-      })
-    },50)
+    setTimeout(this.showMainMenu,50)
   }
 
   updatePlayerState = (newPlayerObject) => {
@@ -135,9 +124,9 @@ class App extends Component {
       showCC={this.showCharacterCreation} 
       startCombat={this.startCombat}
       playerData={this.state.player}
-      showPort={this.showPort}
       currentPort={this.state.currentPort}
       updateHudState={this.updateHudState}
+      updateCurrentPort={this.updateCurrentPort}
       />})
   }
 
@@ -148,25 +137,10 @@ class App extends Component {
   showCharacterCreation = () => {
     this.setState({
       gameScreen:<CharacterCreation 
-      createPlayerObject={this.createPlayerObject } 
-      showPort={this.showPort}
+      createPlayerObject={this.createPlayerObject} 
+      updateCurrentPort={this.updateCurrentPort}
       updateHudState={this.updateHudState}
       />});
-  }
-
-  showPort = (portData) => {
-    //Used when portData object is known and the ID's aren't
-  this.setState({gameScreen:
-    <div>
-      <Port
-      port={portData} 
-      startCombat={this.startCombat}
-      updatePlayerState={this.updatePlayerState}
-      player={this.state.player}
-      updateHudState={this.updateHudState}
-    />
-    </div>
-  })
   }
 
   updateCurrentPort = (portId) => {
@@ -176,6 +150,7 @@ class App extends Component {
       <div>
       <Port
       key={portId}
+      portId={portId}
       port={port} 
       startCombat={this.startCombat}
       updatePlayerState={this.updatePlayerState}
@@ -190,7 +165,7 @@ class App extends Component {
     this.setState({hudProps:{show:showHud,showOnlyGoldAndCargo}});
   } 
 
-  startCombat = (opponent,currentPort,nextPort, fleetBattle={enabled:false}) => {
+  startCombat = (opponent,currentPort,nextPort, armadaData={enabled:false}) => {
     let object = opponent;
     if(opponent===undefined){
       object = this.createOpponent("Fatman",0);
@@ -206,6 +181,8 @@ class App extends Component {
       updatePlayerState={this.updatePlayerState}
       updateCurrentPort={this.updateCurrentPort}
       updateHudState={this.updateHudState}
+      armadaData={armadaData}
+      startCombat={this.startCombat}
       />})
   }
 

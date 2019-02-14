@@ -7,6 +7,18 @@ class ShipWright extends Component {
         this.props.updatePlayerState(object);
     }
 
+    handleShipRepair = (shipData) =>{
+        let player= this.props.player;
+        player.fleet.forEach((ship)=>{
+            if(shipData.uniqueId === ship.uniqueId){
+                player.money -= (ship.maxHealth - ship.health);
+                ship.health = ship.maxHealth;
+                console.log(player.money);
+            }
+        })
+        this.props.updatePlayerState(player);
+    }
+
     render(){
         let player = this.props.player;
         return(
@@ -18,7 +30,10 @@ class ShipWright extends Component {
                         return(
                             <div className="ship" key={ship.uniqueId}>
                                 {ship.health !== ship.maxHealth?
-                                    <button className="buy-button">Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></button>:
+                                    <button 
+                                    className="buy-button"
+                                    onClick={()=>{this.handleShipRepair(ship)}}  
+                                    >Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></button>:
                                     null
                                 }
                                 <UpgradeShip 

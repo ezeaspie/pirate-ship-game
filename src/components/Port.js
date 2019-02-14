@@ -19,6 +19,12 @@ class Port extends Component {
     }
 
     componentDidMount(){
+        if(!this.props.player.portStatus[this.props.portId].unlocked){
+            console.log("NEVER UNLOCKED THIS PORT");
+            let player = this.props.player;
+            player.portStatus[this.props.portId].unlocked = true;
+            this.props.updatePlayerState(player);
+        }
         let generatedShips = [];
         let generatedCannons = [];
         let generatedGoods = [];
@@ -126,7 +132,7 @@ class Port extends Component {
                     <button>Warehouse</button>
                     <button onClick = {()=>{
                         console.log(this.props.port.armada);
-                        this.props.startCombat(undefined,0,1);
+                        this.props.startCombat(undefined,0,1,this.props.port.armada);
                         }}>Head to Next Port</button>
                 </div>
             ]

@@ -26,10 +26,9 @@ class HUD extends Component {
             return acc + (cargo.quantity * cargo.size);
         },0)
 
-        if(this.props.showOnlyGold){
+        if(this.props.showOnlyGoldAndCargo){
             hideProperty = "hidden-hud"
         }
-
 
         return(
             <div className="hud">
