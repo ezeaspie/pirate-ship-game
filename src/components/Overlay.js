@@ -89,6 +89,7 @@ class Overlay extends Component {
                                 this.handleMapTravel(i);
                             }:()=>{return false}}
                             >
+                                <img className="port-image-map" src={port.image} alt={port.name}></img>
                                 <h3>{port.name}</h3>
                             </li>
                         )

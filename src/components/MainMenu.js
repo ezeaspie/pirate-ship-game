@@ -4,9 +4,10 @@ class MainMenu extends Component {
     render(){
         return(
             <div className="main-menu">
-                <ul className="menu-list">
-                    <li onClick={this.props.showCC}>Start New Game</li>
-                    <li 
+                <div className="menu-buttonst">
+                <h1>PIRATE SEAS</h1>
+                    <button onClick={this.props.showCC}>Start New Game</button>
+                    <button
                     onClick={()=>{
                         if(this.props.playerData!==undefined){
                             this.props.updateHudState(true);
@@ -15,9 +16,9 @@ class MainMenu extends Component {
                         }
                         return;
                     }}
-                    >Continue Game</li>
-                    <li>How to Play</li>
-                </ul>
+                    >Continue Game</button>
+                    <button>How to Play</button>
+                </div>
             </div>
         )
     }

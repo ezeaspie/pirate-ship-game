@@ -3,6 +3,7 @@ import difficultyTiers from './difficultyTiers';
 let portFactory = (name,shipClassesSold,cannonsSold,goodsSold,armada={enabled:false}) => {
     return{
         name,
+        image:`./images/${name}.png`,
         shipClassesSold,
         cannonsSold,
         goodsSold,

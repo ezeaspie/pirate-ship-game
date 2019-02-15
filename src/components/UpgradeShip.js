@@ -6,6 +6,7 @@ class UpgradeShip extends Component{
         super(props);
         this.state = {
             currentData: 0,
+            clickStatus:true,
         }
     }
 
@@ -136,7 +137,9 @@ class UpgradeShip extends Component{
                 <h5>{` +${selectedUpgrade.next.bonus} ${selectedUpgrade.stat}`}</h5>
                 <button 
                 className="buy-button"
-                onClick={()=>{this.handleUpgradePurchase(this.state.currentData,selectedUpgrade)}}
+                onClick={()=>{
+                    this.handleUpgradePurchase(this.state.currentData,selectedUpgrade);
+                }}
                 >{` ${selectedUpgrade.next.price}`}<img src="./images/gold.gif" alt="gold-coin"/></button>
             </div>
         }
@@ -149,6 +152,14 @@ class UpgradeShip extends Component{
                         <img src={ship.shipClass.fullHealth} alt={ship.shipClass.name}></img>
                         <h5>{ship.speed} Speed</h5>
                         <h5>{ship.capacity} Cargo Capacity</h5>
+                                    <button 
+                                    className="buy-button"
+                                    onClick={()=>{
+                                        this.props.handleShipRepair(ship);
+                                        this.setState({clickStatus:false});
+                                    }}  
+                                    disabled={ship.health === ship.maxHealth || !this.state.clickStatus}
+                                    >Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></button>
                     </div>
                     <div className="ship-upgrade">
                         <h3>{selectedUpgrade.name} Upgrades</h3>

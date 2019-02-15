@@ -29,18 +29,13 @@ class ShipWright extends Component {
                     player.fleet.map((ship)=>{
                         return(
                             <div className="ship" key={ship.uniqueId}>
-                                {ship.health !== ship.maxHealth?
-                                    <button 
-                                    className="buy-button"
-                                    onClick={()=>{this.handleShipRepair(ship)}}  
-                                    >Repair ship for {ship.maxHealth - ship.health} gold<img src="./images/gold.gif" alt="gold-coin"/></button>:
-                                    null
-                                }
                                 <UpgradeShip 
+                                key={ship.uniqueId}
                                 updatePlayerState={this.handleUpgrade}
                                 generatedCannons={this.props.generatedCannons}
                                 player={this.props.player}
                                 ship={ship}
+                                handleShipRepair={this.handleShipRepair}
                                 />
                             </div>
                            

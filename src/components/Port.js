@@ -115,6 +115,7 @@ class Port extends Component {
                 updateHudState={this.props.updateHudState}
                 />,
                 <div className="current-port-view">
+                    <div className="port-buttons">
                     <h1>{this.props.port.name}</h1>
                     <button onClick={()=>{
                         this.changeCurrentView(2)
@@ -134,6 +135,10 @@ class Port extends Component {
                         console.log(this.props.port.armada);
                         this.props.startCombat(undefined,0,1,this.props.port.armada);
                         }}>Head to Next Port</button>
+                    </div>
+                    <div className="port-graphics">
+                        <img src={this.props.port.image} alt={this.props.port.name}></img>
+                    </div>
                 </div>
             ]
     

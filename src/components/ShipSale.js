@@ -29,14 +29,14 @@ class ShipSale extends Component {
             className={this.state.unavaliable?"ship-sale unavaliable":"ship-sale"}
             key={ship.uniqueId}
             >
-                <button 
-                onClick={this.state.unavaliable?null:()=>{this.handlePurchase(ship)}}
-                className="buy-button">{ship.price}<img src="./images/gold.gif" alt="gold-coin"/></button>
                 <h3>{ship.name}</h3>
                 <h3>{ship.shipClass.name}</h3>
                 <img src={ship.shipClass.fullHealth} alt={ship.shipClass.name}></img>
                 <h5>{ship.speed} Speed</h5>
                 <h5>{ship.capacity} Cargo Capacity</h5>
+                <button 
+                onClick={this.state.unavaliable?null:()=>{this.handlePurchase(ship)}}
+                className="buy-button">{ship.price}<img src="./images/gold.gif" alt="gold-coin"/></button>
             </div>
         )
     }
