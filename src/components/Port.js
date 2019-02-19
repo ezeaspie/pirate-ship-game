@@ -133,7 +133,7 @@ class Port extends Component {
                     <button>Warehouse</button>
                     <button onClick = {()=>{
                         console.log(this.props.port.armada);
-                        this.props.startCombat(undefined,0,1,this.props.port.armada);
+                        this.props.startCombat(undefined,this.props.portId,this.props.portId+1,this.props.port.armada);
                         }}>Head to Next Port</button>
                     </div>
                     <div className="port-graphics">

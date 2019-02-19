@@ -28,7 +28,7 @@ let armadaFactory = (armadaDifficultyArray) => {
 
 let portData = [
     portFactory("Charlie Coast",[0,0,1,2], [0,1],6, armadaFactory([0,0])),
-    portFactory("Whispering Cove",[0,1,2,3],[1,2],8),
+    portFactory("Whispering Cove",[0,1,2,3],[1,2],8, armadaFactory([1,1,1,1])),
     portFactory("Brigantine Bay",[1,2,3,4],[1,2,3],10),
     portFactory("Union Harbor",[2,3,4,5],[1,2,3],11),
     portFactory("Sweetwater Ridge",[3,4,5,6],[2,3,4],11),

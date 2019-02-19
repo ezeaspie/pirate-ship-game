@@ -15,7 +15,6 @@ class Ship extends Component {
         let showExtraInfo = this.props.showExtraInfo;
 
         if(this.props.data.health <= this.props.data.maxHealth * .6){
-            console.log("HELP IM DYING")
             imageid = this.props.data.shipClass.sixtyHealth;
         }      
         if(imageid !== this.props.data.shipClass.fullHealth && this.props.data.health <= this.props.data.maxHealth * .35){
