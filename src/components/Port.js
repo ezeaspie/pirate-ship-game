@@ -130,7 +130,11 @@ class Port extends Component {
                         this.changeCurrentView(1);
                         this.props.updateHudState(true,true);
                         }}>ShipWright</button>
-                    <button>Warehouse</button>
+                    <button onClick={()=>{
+                        this.changeCurrentView(4);
+                        this.props.updateHudState(true,true);
+                        
+                    }}>Item Shop</button>
                     <button onClick = {()=>{
                         console.log(this.props.port.armada);
                         this.props.startCombat(undefined,this.props.portId,this.props.portId+1,this.props.port.armada);

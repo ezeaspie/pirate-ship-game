@@ -61,6 +61,10 @@ class Combat extends Component {
         return rebuiltFleet
     }
 
+    showItems = () => {
+        let playerItems = this.props.player.items;
+    }
+
     calculateAttackOrder = () =>{
         //sort ships into a list based on speed.
         let playerFleet = this.state.playerFleet;

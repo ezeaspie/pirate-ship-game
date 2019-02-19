@@ -9,6 +9,7 @@ import goods from './components/goodsData';
 import Overlay from './components/Overlay';
 import portData from './components/portData';
 import difficultyTiers from './components/difficultyTiers';
+import items from './components/itemFactory';
 
 class App extends Component {
   constructor(props){
@@ -104,6 +105,7 @@ class App extends Component {
 
     let player = {
       name,
+      items: [items[0],items[2]],
       fleet,
       cargo,
       money,
