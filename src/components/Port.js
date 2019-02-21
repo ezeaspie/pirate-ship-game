@@ -5,6 +5,7 @@ import ShipWright from './ShipWright';
 import cannonFactory from './CannonFactory';
 import goods from './goodsData';
 import Marketplace from './Marketplace';
+import ItemShop from './ItemShop';
 
 class Port extends Component {
     constructor(props){
@@ -143,7 +144,11 @@ class Port extends Component {
                     <div className="port-graphics">
                         <img src={this.props.port.image} alt={this.props.port.name}></img>
                     </div>
-                </div>
+                </div>,
+                <ItemShop 
+                changeCurrentView={this.changeCurrentView} 
+                updateHudState={this.props.updateHudState}
+                />
             ]
     
             let selectedView = views[this.state.currentView];

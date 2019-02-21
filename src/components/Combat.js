@@ -15,6 +15,8 @@ class Combat extends Component {
             isPlayersTurn:false,
             prizeMoney: undefined,
             currentBattle:0,
+            items: [],
+            selectedItem:undefined,
         }
         this.handleAttack = this.handleAttack.bind(this);
     }
@@ -35,15 +37,75 @@ class Combat extends Component {
         if(this.props.armadaData.enabled){
             this.setState({opponentFleet:this.props.armadaData.armada[0]});
             console.log("FIGTING AN ARMADA");
-            console.log(this.state.currentBattle, this.props.armadaData.numberOfBattles-1);
         }
         let combinedFleets = this.calculateAttackOrder();
         let prizeMoney = this.state.opponentFleet.reduce((acc,cur)=>{
             return acc + cur.price;
         },0)
         prizeMoney = Math.floor(prizeMoney * .75);
-        this.setState({attackOrder:combinedFleets, prizeMoney},()=>{
+        this.setState({attackOrder:combinedFleets, prizeMoney,items:this.props.player.items},()=>{
             setTimeout(this.handlePreAttack,1500);
+        });
+    }
+
+    handleItemUse = (item) => {
+        let attackOrder = this.state.attackOrder;
+        let selectedItem = undefined;
+        if(item.healsOrDamages){
+            //Means the item is used to heal
+            if(item.affectsAll){
+                //Item affects entire fleet
+                attackOrder.forEach((ship)=>{
+                    if(ship.health + item.unit > ship.maxHealth && ship.isPlayer){
+                        ship.health = ship.maxHealth;
+                    }
+                    else{
+                        ship.health += item.unit;
+                    }
+                })
+            }
+            else{
+            attackOrder.forEach((ship,i)=>{
+                if(i === this.state.currentAttackerId){
+                    if(ship.health + item.unit > ship.maxHealth){
+                        ship.health = ship.maxHealth;
+                    }
+                    else{
+                        ship.health += item.unit;
+                    }
+                }
+            })
+
+            }
+        } else{
+            if(item.affectsAll){
+                attackOrder.forEach((ship,i)=>{
+                    if(!ship.isPlayer){
+                        ship.health -= item.unit;
+                    }
+                })
+            }
+            else{
+                //there has to be a way to tell the game which ship to target
+                //therefore we change a state and button functionality.
+                selectedItem = item.id;
+            }
+        }
+        let items = this.state.items;
+        items.forEach((stateItem)=>{
+            if(item.id === stateItem.id && selectedItem === undefined){
+                item.quantity -= 1;
+            }
+        })
+
+        let opponentShipsAlive = attackOrder.filter((ship)=>{
+            return ship.health > 0 && !ship.isPlayer
+        })
+
+        this.setState({opponentFleet:opponentShipsAlive,attackOrder:this.calculateAttackOrder(),items,selectedItem},()=>{
+            if(this.state.selectedItem === undefined){
+                this.handleEndOfTurn(true);
+            }
         });
     }
 
@@ -55,14 +117,9 @@ class Combat extends Component {
             delete ship.isPlayer;
             delete ship.id;
             rebuiltFleet.push(ship);
-            console.log(ship);
         })
 
         return rebuiltFleet
-    }
-
-    showItems = () => {
-        let playerItems = this.props.player.items;
     }
 
     calculateAttackOrder = () =>{
@@ -120,7 +177,6 @@ class Combat extends Component {
         let possibleTargets = this.state.playerFleet;
         let attackingShip = this.state.attackOrder[this.state.currentAttackerId];
         let selectedTarget = undefined;
-        console.log(attackingShip);
         let cannonDamage = this.calculateAllCannonDamage(attackingShip,true);
 
         let possibleKills = possibleTargets.filter((ship)=>{
@@ -182,7 +238,6 @@ class Combat extends Component {
                     let index = targetShip.cannons.findIndex((cannon)=>{
                         return targetedCannon.uniqueId === cannon.uniqueId;
                     })
-                    console.log(index);
                     targetShip.cannons.splice(index,1);
                 }
         }
@@ -190,10 +245,9 @@ class Combat extends Component {
         return targetShip;
     }
 
-    handleAttack = (target,isPlayer) => {
+    handleAttack = (target,isPlayer,itemUse=this.state.selectedItem) => {
         let targetFleet = undefined;
         let attacker = this.state.attackOrder[this.state.currentAttackerId];
-        console.log(attacker);
 
         if(isPlayer){
             targetFleet = this.state.opponentFleet;
@@ -206,6 +260,12 @@ class Combat extends Component {
         })
 
         let totalCannonDamage = this.calculateAllCannonDamage(attacker);
+        if(itemUse !== undefined){
+            let items = this.state.items;
+            totalCannonDamage = items[itemUse].unit;
+            items[itemUse].quantity -= 1;
+            this.setState({selectedItem : undefined});
+        }
 
         let damagedShipObject = this.recieveAttack(targetShip[0],totalCannonDamage);
 
@@ -247,7 +307,6 @@ class Combat extends Component {
             opponentFleet = this.state.playerFleet;
         }
         //Check for death
-        console.log({isPlayer,length:opponentFleet.length});
         if(opponentFleet.length === 0){
             this.handleDeath(!isPlayer);
         }
@@ -275,25 +334,16 @@ class Combat extends Component {
 
             this.props.updatePlayerState(player);
             if(this.props.armadaData.enabled){
-                console.log({currentBattleplusOne:this.state.currentBattle + 1, max:this.props.armadaData.numberOfBattles});
                 if(this.state.currentBattle +1 > this.props.armadaData.numberOfBattles-1){
                     console.log("END BATTLES");
                     this.props.updateCurrentPort(this.props.nextPort);
                     this.props.updateHudState(true);
                 }
                 else{
-
-                    /*let opponent = {
-                        name:"Steven Universe",
-                        fleet:this.props.armadaData.armada[this.state.currentAttackerId+1],
-                    }
-                    this.props.startCombat(opponent,this.props.currentPort,this.props.nextPort,this.props.armadaData);
-                    */
                     this.setState({currentBattle:this.state.currentBattle+1},()=>{
 
                         this.setState({opponentFleet:this.props.armadaData.armada[this.state.currentBattle]},()=>{
                             let combinedFleets = this.calculateAttackOrder();
-                            console.log(combinedFleets);
                             let prizeMoney = this.state.opponentFleet.reduce((acc,cur)=>{
                                 return acc + cur.price;
                             },0)
@@ -342,6 +392,20 @@ class Combat extends Component {
                     isPlayer={true}
                 />
                 <div className="hud">
+                    <ul className="item-list">
+                        {
+                            this.state.items.map((item)=>{
+                                    return (
+                                        <li className={this.state.selectedItem === item.id?"item selected":"item"} onClick={()=>{this.handleItemUse(item)}}>
+                                            <button disabled={item.quantity === 0}>
+                                            <p>{item.name}</p>
+                                            <p>{item.quantity}</p>
+                                            </button>
+                                        </li>
+                                    )
+                            })
+                        }
+                    </ul>
                     <button 
                     disabled={!this.state.isPlayersTurn}
                     onClick={this.handleFlee}

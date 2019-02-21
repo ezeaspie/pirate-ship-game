@@ -102,10 +102,17 @@ class App extends Component {
       portStatus.push(currentPortStatus);
     })
 
+    let playerItems = [];
+    
+    items.forEach((item)=>{
+      item.quantity = 0;
+      playerItems.push(item);
+    })
+
 
     let player = {
       name,
-      items: [items[0],items[2]],
+      items: playerItems,
       fleet,
       cargo,
       money,

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import items from './components/itemFactory';
+import items from './itemFactory';
 
-class itemShop extends Component {
+class ItemShop extends Component {
 
     render(){
         return(
@@ -18,9 +18,17 @@ class itemShop extends Component {
                         })
                     }
                 </ul>
+                    <button 
+                className="back"
+                onClick={()=>{
+                    this.props.changeCurrentView(3);
+                    this.props.updateHudState(true,false);
+                    }}>
+                    <img src="./images/arrowLeft.png" alt="back-arrow"/>
+                    Back</button>
             </div>
         )
     }
 }
 
-export default itemShop;
+export default ItemShop;
