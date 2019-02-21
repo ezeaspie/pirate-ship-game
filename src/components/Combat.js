@@ -380,6 +380,12 @@ class Combat extends Component {
 
         return(
             <div className="combat-main">
+            {this.props.armadaData.enabled?
+                <div>
+                    <h1>{this.props.armadaData.title}</h1>
+                    <h2>Battle {this.state.currentBattle+1}/{this.props.armadaData.numberOfBattles}</h2>
+                </div>
+                :null}
                 <Fleet 
                     fleet={this.state.opponentFleet}
                     handleAttack={this.handleAttack}
@@ -396,10 +402,11 @@ class Combat extends Component {
                         {
                             this.state.items.map((item)=>{
                                     return (
-                                        <li className={this.state.selectedItem === item.id?"item selected":"item"} onClick={()=>{this.handleItemUse(item)}}>
-                                            <button disabled={item.quantity === 0}>
+                                        <li key ={item.id} className={this.state.selectedItem === item.id?"item selected":"item"} onClick={()=>{this.handleItemUse(item)}}>
+                                            <button disabled={item.quantity === 0 || !this.state.isPlayersTurn}>
+                                            <img src={item.image} alt={item.name} />
                                             <p>{item.name}</p>
-                                            <p>{item.quantity}</p>
+                                            <p>x{item.quantity}</p>
                                             </button>
                                         </li>
                                     )

@@ -600,5 +600,55 @@ input[type="submit"]:hover{
   width: 15%;
 }
 
-.ship-sale img{
+.itemShop ul{
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  align-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.item{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  width: 45%;
+  margin: .5em 0;
+}
+
+.item img{
+  width:15%;
+}
+
+.item-list{
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.item-list .item img{
+  width:50%;
+}
+
+.item-list button{
+  background: none;
+  border: none;
+}
+
+.item-list button:disabled{
+  opacity: .5;
+}
+
+.item-list button:enabled:hover{
+  -webkit-animation: vibrate .3s ease-in-out 1;
+          animation: vibrate .3s ease-in-out 1;
+  cursor: pointer;
+}
+
+.combat-main .hud{
+  flex-direction: column;
+  position:static;
 }

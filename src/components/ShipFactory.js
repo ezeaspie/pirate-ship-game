@@ -88,24 +88,6 @@ const shipFactory = (name,shipClass,config={allowConfig:true}) => {
         cannons.push(cannonFactory(0));
     }
 
-    if(config.allowConfig){
-        let object = {
-            name : name !== undefined?name:nameFactory(),
-            shipClass:config.shipClass,
-            health:config.health,
-            maxHealth:config.maxHealth,
-            speed:config.speed,
-            maxCannons,
-            uniqueId, 
-            cannons:config.cannons,
-            capacity: config.capacity,
-            price:calculatedPrice,
-            hull:config.hull,
-            sails:config.sails,
-            cargoBay:config.cargoBay,
-        }
-    }
-
     return {
         name : name !== undefined?name:nameFactory(),
         shipClass: shipClasses[shipClass],

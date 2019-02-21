@@ -56,8 +56,6 @@ class Good extends Component {
 
     handleInputChange = (e,buyOrSell) =>{
 
-        console.log(e.target.value);
-
         let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
             return acc + (cargo.quantity * cargo.size);
         },0)
@@ -79,9 +77,7 @@ class Good extends Component {
         else{
             let ownedAmount = this.props.player.cargo[this.props.index].quantity;
 
-            console.log(ownedAmount);
-
-            if(ownedAmount >= e.target.value){
+            if(ownedAmount >= e.target.value && e.target.value > 0 ){
                 this.setState(buyOrSell?{buyMultiplier:e.target.value}:{sellMultiplier:e.target.value});
             }
         }

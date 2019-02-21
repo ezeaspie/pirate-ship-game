@@ -3,6 +3,22 @@ import items from './itemFactory';
 
 class ItemShop extends Component {
 
+    handleItemPurchase = (item) => {
+        let player = this.props.player;
+
+        if(player.money >= item.price){
+            player.money -= item.price;
+            player.items.forEach((playerItem)=>{
+                if(item.id === playerItem.id){
+                    playerItem.quantity += 1;
+                }
+            })
+    
+            this.props.updatePlayerState(player);
+            this.forceUpdate();
+        }
+    }
+
     render(){
         return(
             <div className="itemShop">
@@ -10,9 +26,12 @@ class ItemShop extends Component {
                     {
                         items.map((item)=>{
                         return(
-                        <li>
+                        <li className="item" key={item.id}>
+                            <img src={item.image} alt={item.name} />
                             <h3>{item.name}</h3>
-                            <button className="buy-button">{item.price}</button>
+                            <button 
+                            className="buy-button"
+                            onClick={()=>{this.handleItemPurchase(item)}}>{item.price}<img src="./images/gold.gif" alt="gold-coin"/></button>
                         </li>
                         )
                         })

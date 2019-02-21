@@ -148,6 +148,8 @@ class Port extends Component {
                 <ItemShop 
                 changeCurrentView={this.changeCurrentView} 
                 updateHudState={this.props.updateHudState}
+                player={this.props.player}
+                updatePlayerState={this.props.updatePlayerState}
                 />
             ]
     
