@@ -136,10 +136,11 @@ class Port extends Component {
                         this.props.updateHudState(true,true);
                         
                     }}>Item Shop</button>
-                    <button onClick = {()=>{
+                    <button 
+                    onClick = {()=>{
                         console.log(this.props.port.armada);
                         this.props.startCombat(undefined,this.props.portId,this.props.portId+1,this.props.port.armada);
-                        }}>Head to Next Port</button>
+                        }}>Battle vs. {this.props.port.armada.title}</button>
                     </div>
                     <div className="port-graphics">
                         <img src={this.props.port.image} alt={this.props.port.name}></img>

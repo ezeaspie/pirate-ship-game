@@ -376,7 +376,59 @@ class Combat extends Component {
             this.props.updateHudState(true);
     }
 
+    handleScuttle = (cargoCapacity) => {
+        //Runs a loop that grabs cargo indexes that have > 0 capacity and removes
+        //until CargoCapacity > CurrentCargo
+        let player = this.props.player;
+
+        const calculateCurrentCargo = () => {
+            let currentCargo = player.cargo.reduce((acc,cargo)=>{
+                return acc + cargo.quantity * cargo.size;
+            },0);
+            return currentCargo;
+        }
+
+        const evaluateCargoCapacity = () => {
+            let currentCargo = calculateCurrentCargo();
+            return currentCargo > cargoCapacity;
+        }
+
+        while (evaluateCargoCapacity()){
+            
+            let removableCargoIndexes = [];
+            player.cargo.forEach((good,i)=>{
+                if(good.quantity > 0){
+                    removableCargoIndexes.push(i);
+                }
+            })
+            let randomIndex = Math.floor(Math.random() * removableCargoIndexes.length + 1);
+            player.cargo[randomIndex].quantity -= 1;
+        }
+        this.forceUpdate();
+    }
+
     render(){
+
+        let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
+            return acc + (cargo.quantity * cargo.size);
+        },0)
+
+        let cargoCapacity = 0;
+        let isOverburdened = false;
+
+        if(this.state.attackOrder !== undefined){
+            this.state.attackOrder.forEach((ship)=>{
+                if(ship.isPlayer){
+                    cargoCapacity += ship.capacity;
+                }
+            });
+            console.log(cargoCapacity);
+        }
+
+        if(currentCargo > cargoCapacity){
+            console.log("TOO MUCH CARGO");
+            isOverburdened = true;
+        }
 
         return(
             <div className="combat-main">
@@ -414,10 +466,16 @@ class Combat extends Component {
                         }
                     </ul>
                     <button 
-                    disabled={!this.state.isPlayersTurn}
+                    disabled={!this.state.isPlayersTurn || isOverburdened}
                     onClick={this.handleFlee}
                     >
                         FLEE
+                    </button>
+                    <button
+                    onClick={()=>{this.handleScuttle(cargoCapacity)}}
+                    disabled={!this.state.isPlayersTurn || !isOverburdened}
+                    >
+                        Scuttle Cargo
                     </button>
                 </div>
             </div>

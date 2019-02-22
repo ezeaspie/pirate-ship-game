@@ -6,8 +6,7 @@ class Marketplace extends Component {
     render(){
 
         let cargoCapacity = this.props.player.fleet.reduce((acc,ship) => { 
-            let cargoBayBonus = upgradeData[2][ship.cargoBay].bonus;
-            return acc + (ship.capacity + cargoBayBonus); 
+            return acc + (ship.capacity); 
         }, 0); // 7
 
         let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
