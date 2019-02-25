@@ -17,6 +17,8 @@ class Combat extends Component {
             currentBattle:0,
             items: [],
             selectedItem:undefined,
+            showDialougeBox:false,
+            dialougeBoxContent:"hi",
         }
         this.handleAttack = this.handleAttack.bind(this);
     }
@@ -59,8 +61,11 @@ class Combat extends Component {
                     if(ship.health + item.unit > ship.maxHealth && ship.isPlayer){
                         ship.health = ship.maxHealth;
                     }
-                    else{
-                        ship.health += item.unit;
+                    else
+                    {
+                        if(ship.isPlayer){
+                            ship.health += item.unit;
+                        }
                     }
                 })
             }
@@ -335,9 +340,16 @@ class Combat extends Component {
             this.props.updatePlayerState(player);
             if(this.props.armadaData.enabled){
                 if(this.state.currentBattle +1 > this.props.armadaData.numberOfBattles-1){
-                    console.log("END BATTLES");
-                    this.props.updateCurrentPort(this.props.nextPort);
-                    this.props.updateHudState(true);
+                    //IF ARMADA BATTLE REACHES AN END
+                    let dialougeBox = <div className="dialouge-box shown">
+                        <p>You sank the opponent's fleet!</p>
+                        <p>You find <b>{this.state.prizeMoney} gold</b> in the wreckage</p>
+                        <button onClick={()=>{
+                            this.props.updateCurrentPort(this.props.nextPort);
+                            this.props.updateHudState(true);
+                        }}>Ok</button>
+                    </div>
+                    this.setState({dialougeBoxContent:dialougeBox,showDialougeBox:true});
                 }
                 else{
                     this.setState({currentBattle:this.state.currentBattle+1},()=>{
@@ -360,8 +372,15 @@ class Combat extends Component {
                 //else, show next fleet.
             }
             else{
-                this.props.updateCurrentPort(this.props.nextPort);
-                this.props.updateHudState(true);
+                let dialougeBox = <div className="dialouge-box shown">
+                        <p>You sank the opponent's fleet!</p>
+                        <p>You find <b>{this.state.prizeMoney} gold</b> in the wreckage</p>
+                        <button onClick={()=>{
+                            this.props.updateCurrentPort(this.props.nextPort);
+                            this.props.updateHudState(true);
+                        }}>Ok</button>
+                    </div>
+                this.setState({dialougeBoxContent:dialougeBox,showDialougeBox:true});
             }
         }
     }
@@ -407,6 +426,7 @@ class Combat extends Component {
         this.forceUpdate();
     }
 
+
     render(){
 
         let currentCargo = this.props.player.cargo.reduce((acc,cargo)=>{
@@ -426,12 +446,16 @@ class Combat extends Component {
         }
 
         if(currentCargo > cargoCapacity){
-            console.log("TOO MUCH CARGO");
             isOverburdened = true;
         }
 
         return(
             <div className="combat-main">
+            {
+                this.state.showDialougeBox?
+                this.state.dialougeBoxContent
+                :<div className="dialouge-box"></div>
+            }
             {this.props.armadaData.enabled?
                 <div>
                     <h1>{this.props.armadaData.title}</h1>
