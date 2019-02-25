@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import items from './itemFactory';
+import InfoComponent from './InfoComponent';
 
 class ItemShop extends Component {
 
@@ -21,22 +22,27 @@ class ItemShop extends Component {
 
     render(){
         return(
+            <div>
             <div className="itemShop">
-                <ul>
                     {
                         items.map((item)=>{
-                        return(
-                        <li className="item" key={item.id}>
+                        let content = 
+                        <div className="item">
                             <img src={item.image} alt={item.name} />
                             <h3>{item.name}</h3>
                             <button 
                             className="buy-button"
                             onClick={()=>{this.handleItemPurchase(item)}}>{item.price}<img src="./images/gold.gif" alt="gold-coin"/></button>
-                        </li>
+                        </div>
+                        return(
+                            <InfoComponent key={item.id} 
+                                content={content}
+                                description={item.description}
+                            />
                         )
                         })
                     }
-                </ul>
+            </div>
                     <button 
                 className="back"
                 onClick={()=>{

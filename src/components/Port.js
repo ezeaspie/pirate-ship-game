@@ -6,6 +6,8 @@ import cannonFactory from './CannonFactory';
 import goods from './goodsData';
 import Marketplace from './Marketplace';
 import ItemShop from './ItemShop';
+import InfoComponent from './InfoComponent';
+import portData from './portData';
 
 class Port extends Component {
     constructor(props){
@@ -97,6 +99,13 @@ class Port extends Component {
 
     render(){
 
+        let armadaButton= <button 
+        onClick = {()=>{
+            console.log(this.props.port.armada);
+            this.props.startCombat(undefined,this.props.portId,this.props.portId+1,this.props.port.armada);
+            }}>Battle vs. {this.props.port.armada.title}</button>
+
+        let armadaDescription= `${this.props.port.armada.numberOfBattles} Battles of Level ${this.props.portId+1} Difficulty to reach ${portData[this.props.portId+1].name}`;
         let getCurrentView = () => {
             //views[3] is the 'main' port view
             let views = [
@@ -136,11 +145,7 @@ class Port extends Component {
                         this.props.updateHudState(true,true);
                         
                     }}>Item Shop</button>
-                    <button 
-                    onClick = {()=>{
-                        console.log(this.props.port.armada);
-                        this.props.startCombat(undefined,this.props.portId,this.props.portId+1,this.props.port.armada);
-                        }}>Battle vs. {this.props.port.armada.title}</button>
+                    <InfoComponent content={armadaButton} description={armadaDescription}/>
                     </div>
                     <div className="port-graphics">
                         <img src={this.props.port.image} alt={this.props.port.name}></img>

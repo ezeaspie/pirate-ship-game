@@ -3,7 +3,6 @@ html {
           animation: moveBackground ease-in-out 100s infinite;
 }
 
-
 .map-icon{
   background: 0;
   border:0;
@@ -600,22 +599,28 @@ input[type="submit"]:hover{
   width: 15%;
 }
 
-.itemShop ul{
+.itemShop{
   display: flex;
-  list-style-type: none;
-  padding: 0;
   align-content: center;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  width: 100%;
+}
+
+.itemShop>div{
+  display: flex;
+  align-items: center;
+  width: 50%;
+  justify-content: center;
 }
 
 .item{
+  width: 75%;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
-  width: 45%;
   margin: .5em 0;
 }
 
@@ -629,8 +634,49 @@ input[type="submit"]:hover{
   align-items: center;
 }
 
+.info-main{
+  position: relative;
+  display: inline-block;
+}
+
+.info-description{
+  box-sizing: border-box;
+  position: absolute;
+  padding: .5em;
+  width: 90%;
+  top:100%;
+  z-index: 1;
+  background: #ebd5b3;
+  border: solid 2px #be914a;
+  transition:ease .4s opacity;
+}
+
+.info-description:hover{
+  cursor: default;
+}
+
+.info-hide{
+  opacity: 0;
+  z-index: -100;
+}
+
 .item-list .item img{
   width:50%;
+}
+
+.info {
+  box-sizing: border-box;
+  background: #ebd5b3;
+  border: solid 2px #be914a;
+  opacity: .8;
+  transition:ease .4s opacity;
+  max-width:3em;
+}
+
+.info-main .info:hover{
+  transition:ease .4s opacity;
+  opacity: 1;
+  cursor: help;
 }
 
 .item-list button{
