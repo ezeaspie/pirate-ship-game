@@ -18,6 +18,8 @@ class Port extends Component {
             generatedShips:undefined,
             generatedGoods:undefined,
             generatedCannons:undefined,
+            dialougeBoxContent:null,
+            showDialougeBox:false,
         }
     }
 
@@ -28,6 +30,56 @@ class Port extends Component {
             player.portStatus[this.props.portId].unlocked = true;
             this.props.updatePlayerState(player);
         }
+
+        //Checks if the port component is mounting from Main Menu or Character Creation
+        //If it is, don't run confiscation or players will have a chance to have goods seized
+        //At a port they already travelled to.
+        if(this.props.isInitalRender){
+            let confiscationChances = goods.map((good)=>{
+                let randomNum = Math.floor(Math.random() * 100); 
+                if(good.contrabandChance > randomNum){
+                    return true;
+                }
+                return false;
+            })
+    
+            let player = this.props.player;
+            let wasThereAChange = false;
+            let confiscatedGoods = [];
+    
+            player.cargo.forEach((good,i)=>{
+                if(good.quantity !== 0){
+                    if(confiscationChances[i]){
+                        good.quantity = 0;
+                        console.log(good.name + "was confiscated. :(");
+                        wasThereAChange = true;
+                        confiscatedGoods.push(good);
+                    }
+                }
+            })
+            if(wasThereAChange){
+                this.props.updatePlayerState(player);
+                let dialougeBox = <div className="dialouge-box shown">
+                            <p>Upon arrival at the port, the authorities decided to randomly inspect your ship and confiscated the following goods:</p>
+                            {
+                                confiscatedGoods.map((good)=>{
+                                    return(
+                                        <div>
+                                            <img src={good.image} alt={good.name}/>
+                                            <p><b>{good.name}</b></p>
+                                        </div>
+                                    )
+                                })
+                            }
+                            <button onClick={()=>{
+                                this.setState({showDialougeBox:false})
+                            }}>Ok :(</button>
+                        </div>
+                this.setState({showDialougeBox:true,dialougeBoxContent:dialougeBox});
+            }
+            console.log(confiscationChances);
+        }
+        
         let generatedShips = [];
         let generatedCannons = [];
         let generatedGoods = [];
@@ -169,6 +221,11 @@ class Port extends Component {
         return(
             
             <div className="port">
+            {
+                this.state.showDialougeBox?
+                this.state.dialougeBoxContent
+                :<div className="dialouge-box"></div>
+            }
             {selectedView}      
             </div>
         )

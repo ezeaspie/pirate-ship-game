@@ -717,3 +717,13 @@ input[type="submit"]:hover{
   transition:ease-in-out .3s all;
 }
 
+.port .dialouge-box div{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+.port .dialouge-box div img{
+  margin: 0 1em;
+  width: 5em;
+}

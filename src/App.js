@@ -66,14 +66,17 @@ class App extends Component {
 
   loadGame = () => {
     let player = JSON.parse(localStorage.getItem("player"));
+    let port = JSON.parse(localStorage.getItem("port"));
 
-    this.setState({player});
+    this.setState({player,currentPort:port});
   }
 
   saveGame = () => {
     let player = JSON.stringify(this.state.player);
     console.log("saved");
     localStorage.setItem("player",player);
+    let port = JSON.stringify(this.state.currentPort);
+    localStorage.setItem("port",port);
   }
 
   createPlayerObject = (name,fleet,money=100) => {
@@ -152,12 +155,13 @@ class App extends Component {
       />});
   }
 
-  updateCurrentPort = (portId) => {
+  updateCurrentPort = (portId, isInitalRender=false) => {
     //Used when ID's of new port is known.
     let port = portData[portId];
     this.setState({currentPort:portId,gameScreen:
       <div>
       <Port
+      isInitalRender={isInitalRender}
       key={portId}
       portId={portId}
       port={port} 

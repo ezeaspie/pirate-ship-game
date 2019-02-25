@@ -16,13 +16,13 @@ const goods = [
     goodsFactory("Lumber",10,10,9,0,'wood'),
     goodsFactory("Tea",15,5,5,0,'tea'),
     goodsFactory("Cloth",20,5,15,0,'cloth'),
-    goodsFactory("Wine",50,10,10,10,'wine'),
+    goodsFactory("Wine",50,10,10,5,'wine'),
     goodsFactory("Iron",100,20,5,0,'iron'),
-    goodsFactory("Medicine",200,10,100,25,'medicine'),
-    goodsFactory("Oil",500,20,400,25,'oil'),
-    goodsFactory("Gold",800,10,400,30,'gold'),
-    goodsFactory("Weapons",1000,25,300,50,'weapons'),
-    goodsFactory("Exotic Pets",2500,15,2000,80,'snake'),
+    goodsFactory("Medicine",200,10,100,15,'medicine'),
+    goodsFactory("Oil",500,20,400,20,'oil'),
+    goodsFactory("Gold",800,10,400,25,'gold'),
+    goodsFactory("Weapons",1000,25,300,45,'weapons'),
+    goodsFactory("Exotic Pets",2500,15,2000,75,'snake'),
 ]
 
 export default goods;

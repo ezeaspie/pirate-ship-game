@@ -11,7 +11,7 @@ class MainMenu extends Component {
                     onClick={()=>{
                         if(this.props.playerData!==undefined){
                             this.props.updateHudState(true);
-                            this.props.updateCurrentPort(this.props.currentPort);
+                            this.props.updateCurrentPort(this.props.currentPort,true);
                             return;
                         }
                         return;

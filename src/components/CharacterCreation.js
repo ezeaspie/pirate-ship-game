@@ -27,7 +27,7 @@ class CharacterCreation extends Component {
         }
 
         this.props.createPlayerObject(this.state.nameValue,[this.state.selectedShipData]);
-        this.props.updateCurrentPort(0);
+        this.props.updateCurrentPort(0,true);
         this.props.updateHudState(true);
     }
 
