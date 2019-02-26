@@ -174,30 +174,34 @@ class UpgradeShip extends Component{
                             </div>
                             :
                             <div>
+                                <h4>Equipped</h4>
+                                <div className="equipped-cannons">
                                 {
                                     ship.cannons.map((cannon)=>{
                                         return (
-                                            <li key={cannon.uniqueId}>
+                                            <div className="equipped cannons" key={cannon.uniqueId}>
                                                 <img src={cannon.image} alt={cannon.name}/>
                                                 <h5>{cannon.name}</h5>
                                                 <h5>{cannon.damage}</h5>
                                                 <h5>{cannon.durability}</h5>
-                                                <button onClick={()=>{this.handleCannonRemoval(cannon)}}>Remove</button>
-                                            </li>
+                                                <button className="remove" onClick={()=>{this.handleCannonRemoval(cannon)}}>Remove</button>
+                                            </div>
                                         )
                                     })
                                 }
+                                </div>
+                                <div className="purchase-cannons">
                                 {
                                     this.props.generatedCannons.map((cannonForSale)=>{
                                         return(
-                                            <button key={cannonForSale.uniqueId} onClick={()=>{
+                                            <div className="purchase cannons" key={cannonForSale.uniqueId} onClick={()=>{
                                                 if(ship.cannons.length < ship.maxCannons){
                                                     this.handleCannonPurchase(cannonForSale);
                                                     return;
                                                 }
-                                                console.log(ship.cannons.length +1, ship.maxCannons)
                                                 return;
                                                 }}>
+                                                <h4>Buy Cannons</h4>
                                                 <img src={cannonForSale.image} alt={cannonForSale.name}/>
                                                 <h5>{cannonForSale.name}</h5>
                                                 <h5>{cannonForSale.damage} DMG</h5>
@@ -205,10 +209,11 @@ class UpgradeShip extends Component{
                                                 <button
                                                     className="buy-button"
                                                 >{` ${cannonForSale.price}`}<img src="./images/gold.gif" alt="gold-coin"/></button>
-                                            </button>
+                                            </div>
                                         )
                                     })
                                 }
+                                </div>
                             </div>
                         }
                         <ul className="upgrade-selector">

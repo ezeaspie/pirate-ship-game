@@ -387,6 +387,7 @@ input[type="submit"]:hover{
   align-content: center;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
 .overlay-shown{
@@ -726,4 +727,41 @@ input[type="submit"]:hover{
 .port .dialouge-box div img{
   margin: 0 1em;
   width: 5em;
+}
+
+.equipped-cannons{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.cannons{
+  box-sizing: border-box;
+  width: 50%;
+  padding: .5em;
+  justify-content: center;
+  align-items: center;
+}
+
+.cannons .buy-button{
+  width: 100%;
+}
+
+.purchase-cannons{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.remove{
+  background: #f15b5b;
+  border:none;
+  padding: .5em;
+}
+
+.remove:hover{
+  cursor: pointer;
+}
+
+.overlay .back{
+  margin-top: 3em;
 }
