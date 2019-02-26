@@ -328,10 +328,18 @@ class Combat extends Component {
 
     handleDeath = (isPlayer) => {
         if(isPlayer){
-            console.log("Player died.");
+            let dialougeBox = <div className="dialouge-box shown">
+                        <h2>GAME OVER</h2>
+                        <p>Your fleet was destroyed!</p>
+                        <p>This is the end of the vikings!</p>
+                        <p>You sank with {this.props.player.money} gold to the bottom of the sea.</p>
+                        <button onClick={()=>{
+                            this.props.showMainMenu();
+                        }}>Return to Main Menu</button>
+                    </div>
+                    this.setState({dialougeBoxContent:dialougeBox,showDialougeBox:true});
         }
         else{
-            console.log("Opponent died.");
             let playerFleet = this.rebuildShipObject();
             let player = this.props.player;
             player.money += Number(this.state.prizeMoney);

@@ -186,7 +186,8 @@ class App extends Component {
 
     this.updateHudState(false);
     
-    this.setState({gameScreen:<Combat 
+    this.setState({gameScreen:<Combat
+      showMainMenu={this.showMainMenu} 
       opponent={object} 
       player={this.state.player}
       currentPort={currentPort}
