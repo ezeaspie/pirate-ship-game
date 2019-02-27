@@ -1,6 +1,5 @@
 import React , {Component} from 'react';
 import Good from './Good';
-import upgradeData from './upgradeData';
 
 class Marketplace extends Component {
     render(){

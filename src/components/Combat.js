@@ -1,9 +1,6 @@
 import React , { Component } from 'react';
 import Fleet from './Fleet';
 
-//Remember to 'reset' the shipObject to remove the Combat only ship object properties
-//once the battle ends.
-
 class Combat extends Component {
     constructor(props){
         super(props);

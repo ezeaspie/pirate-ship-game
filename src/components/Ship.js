@@ -1,5 +1,6 @@
 import React , { Component } from 'react';
 import upgradeData from './upgradeData';
+import HealthBar from './HealthBar';
 
 class Ship extends Component {
     constructor(props){
@@ -29,6 +30,7 @@ class Ship extends Component {
                 ()=>{this.props.handleAttack(this.props.data,true)}
             } 
             className={this.props.data.isActive?"combat-ship active-ship":"combat-ship"}>
+                <HealthBar health={this.props.data.health} maxHealth={this.props.data.maxHealth}/>
                 <h3>{this.props.data.health}/{this.props.data.maxHealth}</h3>
                 <div className={allowClick?"combat-ship-image-container clickable":"combat-ship-image-container"}>
                 <img className="ship-image" src={imageid} alt={this.props.data.shipClass.name}></img>

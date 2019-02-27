@@ -561,6 +561,118 @@ input[type="submit"]:hover{
   align-content: center;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.to-left{
+  -webkit-animation: move-left linear 60s infinite;
+          animation: move-left linear 60s infinite;
+  position: absolute;
+  top:10%;
+}
+
+.to-right{
+  -webkit-animation: move-right linear 60s infinite;
+          animation: move-right linear 60s infinite;
+}
+
+.to-right{
+  position: absolute;
+  bottom: 10%;
+}
+
+@-webkit-keyframes move-left{
+  0%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    left:120%;
+  }
+  50%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    left: -20%;
+  }
+  51%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    left: -20%;
+  }
+  100%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    left: 120%;
+  }
+}
+
+@keyframes move-left{
+  0%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    left:120%;
+  }
+  50%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    left: -20%;
+  }
+  51%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    left: -20%;
+  }
+  100%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    left: 120%;
+  }
+}
+
+@-webkit-keyframes move-right{
+  0%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    right:120%;
+  }
+  50%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    right: -20%;
+  }
+  51%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    right: 20%;
+  }
+  100%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    right: 120%;
+  }
+}
+
+@keyframes move-right{
+  0%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    right:120%;
+  }
+  50%{
+    -webkit-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+    right: -20%;
+  }
+  51%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    right: -20%;
+  }
+  100%{
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    right: 120%;
+  }
 }
 
 .menu-buttonst {
@@ -764,4 +876,26 @@ input[type="submit"]:hover{
 
 .overlay .back{
   margin-top: 3em;
+}
+
+.main-menu-main{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content:space-around;
+}
+
+.main-menu-main img{
+  width: 20%;
+}
+
+.health-bar{
+  height: .5em;
+  background: #d3d3d3;
+  width:100%;
+}
+
+.current-health{
+  background:green;
+  height: .5em;
 }

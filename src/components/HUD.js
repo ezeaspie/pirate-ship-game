@@ -1,5 +1,4 @@
 import React , {Component} from 'react';
-import upgradeData from './upgradeData';
 
 class HUD extends Component {
 
