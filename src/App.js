@@ -11,6 +11,8 @@ import portData from './components/portData';
 import difficultyTiers from './components/difficultyTiers';
 import items from './components/itemFactory';
 
+let hasSave = false;
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -32,6 +34,7 @@ class App extends Component {
     }
     else{
       console.log("SAVE FOUND");
+      hasSave = true;
       this.loadGame();
     }
     //Used to ensure that there is a bit of data to use before starting.
@@ -134,6 +137,7 @@ class App extends Component {
 
   showMainMenu = () => {
     this.setState({gameScreen:<MainMenu 
+      hasSave={hasSave}
       showCC={this.showCharacterCreation} 
       startCombat={this.startCombat}
       playerData={this.state.player}

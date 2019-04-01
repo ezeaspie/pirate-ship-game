@@ -11,6 +11,7 @@ class MainMenu extends Component {
                     <h1>PIRATE SEAS</h1>
                         <button onClick={this.props.showCC}>Start New Game</button>
                         <button
+                        disabled={!this.props.hasSave}
                         onClick={()=>{
                             if(this.props.playerData!==undefined){
                                 this.props.updateHudState(true);
