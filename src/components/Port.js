@@ -77,7 +77,6 @@ class Port extends Component {
                         </div>
                 this.setState({showDialougeBox:true,dialougeBoxContent:dialougeBox});
             }
-            console.log(confiscationChances);
         }
         
         let generatedShips = [];

@@ -26,9 +26,14 @@ class CharacterCreation extends Component {
             return;
         }
 
-        this.props.createPlayerObject(this.state.nameValue,[this.state.selectedShipData]);
-        this.props.updateCurrentPort(0,true);
-        this.props.updateHudState(true);
+        let createPlayerPromise = new Promise((resolve,reject) => {
+            resolve(this.props.createPlayerObject(this.state.nameValue,[this.state.selectedShipData]))
+        })
+        createPlayerPromise.then(()=>{
+            this.props.updateCurrentPort(0,true);
+            this.props.updateHudState(true);
+        })
+
     }
 
     handleName = (e) => {

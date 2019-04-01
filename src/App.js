@@ -121,6 +121,7 @@ class App extends Component {
       money,
       portStatus,
     }
+    
     this.setState({player},this.saveGame);
   }
 
