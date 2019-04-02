@@ -1,6 +1,8 @@
 import React , { Component } from 'react';
 import Fleet from './Fleet';
 
+let playerFleetSaved = [];
+
 class Combat extends Component {
     constructor(props){
         super(props);
@@ -45,6 +47,11 @@ class Combat extends Component {
         this.setState({attackOrder:combinedFleets, prizeMoney,items:this.props.player.items},()=>{
             setTimeout(this.handlePreAttack,1500);
         });
+        this.props.player.fleet.forEach((ship)=>{
+            let shipObject = ship;
+            playerFleetSaved.push(shipObject);
+        })
+        console.log(playerFleetSaved);
     }
 
     handleItemUse = (item) => {
@@ -111,10 +118,10 @@ class Combat extends Component {
         });
     }
 
-    rebuildShipObject = () =>{
+    rebuildShipObject = (fleet=this.state.playerFleet) =>{
     //Removes extra properties from the player's fleet that are only used in Combat.
         let rebuiltFleet = [];
-        this.state.playerFleet.forEach((ship)=>{
+        fleet.forEach((ship)=>{
             delete ship.isActive;
             delete ship.isPlayer;
             delete ship.id;
@@ -331,7 +338,15 @@ class Combat extends Component {
                         <p>This is the end of the vikings!</p>
                         <p>You sank with {this.props.player.money} gold to the bottom of the sea.</p>
                         <button onClick={()=>{
-                            this.props.showMainMenu();
+                            console.log(playerFleetSaved);
+                            playerFleetSaved.forEach((ship)=>{
+                                ship.health = ship.maxHealth;
+                            })
+
+                            let player = this.props.player;
+                            player.fleet = this.rebuildShipObject(playerFleetSaved);
+                            this.props.updatePlayerState(player);
+                            window.location.reload();
                         }}>Return to Main Menu</button>
                     </div>
                     this.setState({dialougeBoxContent:dialougeBox,showDialougeBox:true});
